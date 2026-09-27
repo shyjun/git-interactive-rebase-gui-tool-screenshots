@@ -40,6 +40,7 @@ USER_CONFIG = Path.home() / ".config"
 SCENES = [
     ("head-commits.py", ["head-commits.webp"]),
     ("main-interface.py", ["main-interface.webp"]),
+    ("test.py", ["test.webp"]),
 ]
 # ==========================================================
 
