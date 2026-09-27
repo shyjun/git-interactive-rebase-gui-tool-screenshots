@@ -1,15 +1,30 @@
 """Plumbing for the screenshot robot.
 
-Scene scripts import exactly three things from here:
+Scene scripts import exactly what they need from here:
 
-    from capture_lib import Tool, capture, repo
+    from capture_lib import Tool, capture, image_new, repo
 
 - repo.reset_to_base()   put the clone back to the pinned commit
+- repo.run("stash", "clear")   run a git command in the clone
+- repo.path / <file>     a file inside the clone (append with open(..., "a"))
 - Tool(...)              open / control / close the GUI
-- capture(...)           take the picture and save it as .webp
+- img = capture(tool, description=..., size=(W, H))
+                         screenshot the tool window into a working image
+- img.draw_box(boxes)    red frames / plates / labels (BOXES-style dicts)
+- img.crop(x1,y1,x2,y2)  crop in place, inclusive corners = BOXES rect coords
+- img.add(x, y, other)   composite another Image, its top-left at (x, y)
+- img.add_text(x, y, "text", size, border=0)
+                         red Times-Roman text, top-left at (x, y)
+- img.save("name")       write <name>.png AND <name>.webp into .work/out/
+- image_new(w, h)        blank white image to draw/compose on
+
+Captures are plain pngs on disk; every op edits in place, so crop, draw
+and compose in any order before img.save(). main.py step 5 still converts
+and publishes the .webp batch.
 
 You normally never edit this file.
 """
+import itertools
 import os
 import re
 import subprocess
@@ -53,8 +68,42 @@ def log_tail(path, lines=40):
         return "(no log)\n"
 
 
+def _crop_png(png, x1, y1, x2, y2):
+    """Crop the png in place to inclusive corners (x1, y1)-(x2, y2).
+
+    Same coordinate space as BOXES rects - a rect can be pasted in directly.
+    Returns the new size as "WxH".
+    """
+    png = Path(png)
+    dims = _sh_ok(["identify", "-format", "%wx%h", str(png)], "identify").stdout.strip()
+    img_w, img_h = (int(v) for v in dims.split("x"))
+    w, h = x2 - x1 + 1, y2 - y1 + 1
+    if x1 < 0 or y1 < 0 or w <= 0 or h <= 0 or x2 >= img_w or y2 >= img_h:
+        raise RobotError(
+            f"crop: box ({x1},{y1})-({x2},{y2}) does not fit "
+            f"{png.name} ({dims})"
+        )
+    tmp = png.with_name(f"_{png.stem.lstrip('_')}.crop.png")
+    _sh_ok(
+        ["convert", str(png), "-crop", f"{w}x{h}+{x1}+{y1}", "+repage", str(tmp)],
+        "crop",
+    )
+    tmp.replace(png)
+    got = _sh_ok(["identify", "-format", "%wx%h", str(png)], "identify").stdout.strip()
+    if got != f"{w}x{h}":
+        raise RobotError(f"crop: {png.name} came out {got}, expected {w}x{h}")
+    print(f"  cropped {png.name} ({got})", flush=True)
+    return got
+
+
 class Repo:
     """The reference clone the tool is launched against."""
+
+    path = CLONE_DIR
+
+    def run(self, *args):
+        """Run a git command in the clone (scenes: repo.run("stash", "clear"))."""
+        return _sh_ok(["git", "-C", str(CLONE_DIR), *args], f"git {' '.join(str(a) for a in args)}")
 
     def reset_to_base(self):
         """Back to the pinned commit, on branch master, clean working tree.
@@ -102,6 +151,22 @@ class Tool:
         # Contains the clone path, so we never grab another instance's window.
         return f"path={CLONE_DIR}"
 
+    def _our_windows(self):
+        """Title matches our clone AND belongs to our own process.
+
+        The title alone is not enough: an orphan left behind by a failed run
+        (or your own manual instance on the same clone) carries the same
+        marker, and grabbing it would drive the wrong window.
+        """
+        res = _sh(["xdotool", "search", "--name", self._title_marker])
+        mine = []
+        for wid in res.stdout.split():
+            prop = _sh(["xprop", "-id", wid, "_NET_WM_PID"])
+            match = re.search(r"=\s*(\d+)", prop.stdout)
+            if match and int(match.group(1)) == self.proc.pid:
+                mine.append(wid)
+        return mine
+
     def wait_for_window(self, timeout=30):
         """Block until our tool window exists; store its window id."""
         deadline = time.time() + timeout
@@ -111,8 +176,7 @@ class Tool:
                     f"tool exited with code {self.proc.returncode} before showing a window\n"
                     f"--- log tail ---\n{log_tail(self._log_path)}"
                 )
-            res = _sh(["xdotool", "search", "--name", self._title_marker])
-            ids = res.stdout.split()
+            ids = self._our_windows()
             if ids:
                 self.window_id = ids[-1]
                 self.activate()
@@ -143,17 +207,32 @@ class Tool:
         self.activate()
         left, _, top, _ = self._frame_extents()
         x, y, _, _ = self._client_geometry()
-        _sh_ok(
-            ["xdotool", "mousemove", "--sync", str(x - left + int(rel_x)),
-             str(y - top + int(rel_y))],
-            "mousemove",
+        tx, ty = x - left + int(rel_x), y - top + int(rel_y)
+        pos = _sh(["xdotool", "getmouselocation", "--shell"]).stdout
+        cur = dict(
+            line.split("=", 1) for line in pos.splitlines() if "=" in line
         )
+        # mousemove --sync stalls ~15s when the pointer is already at the
+        # target: it waits for a motion event that then never arrives
+        if (cur.get("X"), cur.get("Y")) != (str(tx), str(ty)):
+            _sh_ok(["xdotool", "mousemove", "--sync", str(tx), str(ty)], "mousemove")
         time.sleep(0.2)
         _sh_ok(["xdotool", "click", str(button)], "click")
         time.sleep(0.2)
 
     def activate(self):
         """Raise and focus our window (so nothing overlaps it during capture)."""
+        active = _sh(["xdotool", "getactivewindow"]).stdout.strip()
+        if active:
+            # our own main window or one of its child windows/dialogs is
+            # focused (matched by PID - their titles differ from the marker):
+            # leave the stacking alone. Re-raising main would bury the child
+            # window and steal the next click, and windowactivate --sync
+            # would stall ~15s waiting for a focus change that never happens
+            prop = _sh(["xprop", "-id", active, "_NET_WM_PID"])
+            match = re.search(r"=\s*(\d+)", prop.stdout)
+            if match and int(match.group(1)) == self.proc.pid:
+                return
         _sh_ok(["xdotool", "windowactivate", "--sync", self.window_id], "windowactivate")
 
     def sleep(self, seconds):
@@ -214,35 +293,41 @@ class Tool:
         w, h = _sh_ok(["xdotool", "getdisplaygeometry"], "getdisplaygeometry").stdout.split()
         return 0, 0, int(w), int(h)
 
-    def _settled(self, ww, wh, timeout):
-        """True while the window frame (borders included) is ~the workarea size."""
-        deadline = time.time() + timeout
-        while True:
-            left, right, top, bottom = self._frame_extents()
-            _, _, w, h = self._client_geometry()
-            if abs(w + left + right - ww) <= 2 and abs(h + top + bottom - wh) <= 2:
-                return True
-            if time.time() >= deadline:
-                return False
-            time.sleep(0.3)
-
     def maximize(self):
         """Grow the window to fill the screen workarea (for maximized captures).
 
-        Sets the geometry by hand (KWin's Alt+F10 shortcut does not fire for
-        synthetic keys here): client size = workarea minus the frame extents,
-        frame origin slid to the workarea origin so nothing is cut off.
+        The geometry is set by hand (KWin's Alt+F10 shortcut does not fire for
+        synthetic keys here). Frame extents can change while resizing - KWin
+        drops the side borders once the window is full-width - so re-read them
+        and resize again until the frame matches the workarea exactly, twice
+        in a row; a frame even 2px short would fail capture()'s size
+        assertion. Finally slide the window to the workarea origin.
         """
         self.activate()
         wx, wy, ww, wh = self._workarea()
-        if self._settled(ww, wh, 0.5):  # already full-workarea (e.g. relaunched)
-            return
-        left, right, top, bottom = self._frame_extents()
-        _sh_ok(
-            ["xdotool", "windowsize", "--sync", self.window_id,
-             str(ww - left - right), str(wh - top - bottom)],
-            "windowsize",
-        )
+        exact = 0
+        for _ in range(6):
+            left, right, top, bottom = self._frame_extents()
+            _, _, w, h = self._client_geometry()
+            if w + left + right == ww and h + top + bottom == wh:
+                exact += 1
+                if exact >= 2:
+                    break
+            else:
+                exact = 0
+                _sh_ok(
+                    ["xdotool", "windowsize", "--sync", self.window_id,
+                     str(ww - left - right), str(wh - top - bottom)],
+                    "windowsize",
+                )
+            time.sleep(0.4)
+        else:
+            left, right, top, bottom = self._frame_extents()
+            _, _, w, h = self._client_geometry()
+            raise RobotError(
+                f"frame {w + left + right}x{h + top + bottom} never reached "
+                f"the workarea {ww}x{wh}"
+            )
         for _ in range(3):  # frame origin should sit at the workarea origin
             x, y, _, _ = self._client_geometry()
             left, _, top, _ = self._frame_extents()
@@ -255,19 +340,40 @@ class Tool:
                 "windowmove",
             )
             time.sleep(0.3)
-        if self._settled(ww, wh, 3):
-            return
-        _, _, w, h = self._client_geometry()
-        raise RobotError(f"window stayed at {w}x{h}, workarea is {ww}x{wh}")
 
     def close(self):
-        """Quit the tool with Ctrl+Q (its own shortcut) and wait for a clean exit."""
+        """Quit the tool with Ctrl+Q (its own shortcut) and wait for a clean exit.
+
+        A modal dialog can swallow Ctrl+Q, so on the first miss the dialog is
+        dismissed with Escape and Ctrl+Q is sent again before escalating to
+        terminate/kill - the tool must never be left running.
+
+        Always also drops the underscore working files (_wip/_blank/copies):
+        images a scene never saved are scratch, not captures.
+        """
+        try:
+            self._quit()
+        finally:
+            for p in OUT_DIR.glob("_*"):
+                try:
+                    p.unlink()
+                except OSError:
+                    pass
+
+    def _quit(self):
         if self.window_id:
             self.activate()
             _sh(["xdotool", "key", "--clearmodifiers", "ctrl+q"])
-        try:
-            self.proc.wait(timeout=10)
-        except subprocess.TimeoutExpired:
+        attempts = 2 if self.window_id else 1
+        for attempt in range(attempts):
+            try:
+                self.proc.wait(timeout=4)
+                break
+            except subprocess.TimeoutExpired:
+                if attempt == 0 and self.window_id:
+                    _sh(["xdotool", "key", "--clearmodifiers", "Escape"])
+                    _sh(["xdotool", "key", "--clearmodifiers", "ctrl+q"])
+        else:
             self.proc.terminate()
             try:
                 self.proc.wait(timeout=5)
@@ -297,53 +403,60 @@ def _text_size(text):
     return int(w), int(h)
 
 
-def capture(tool, name, description, boxes, size=None, pads=(0, 0, 0, 0), quality=90):
-    """Screenshot our tool window (title bar included) into .work/out/<name>.
+_wip_seq = itertools.count(1)
 
-    pads: (left, right, top, bottom) white margin added around the window.
-          Some docs shots sit on a white canvas with room above the title bar
-          for an annotation - the scene script decides.
 
-    boxes: [] or [{"rect": (x1, y1, x2, y2),              # red frame: outer pixel bounds
-                   "label": "text",                        # red serif text
-                   "label_at": (cx, cy),                   # label text center
-                   "plate": (x1, y1, x2, y2)}, ...]        # white plate behind the label
-           coordinates are in pixels of the FINAL (padded) image, (0, 0) top-left.
-           The frame is drawn as four 2px bands, so every edge lands on exact
-           pixel rows (strokes rasterize differently per coordinate).
-           Draw order: all frames, then all plates, then all labels - so a plate
-           can deliberately cut a frame short, like in the original shots.
+def _dims(path):
+    """Pixel size "WxH" of an image file."""
+    return _sh_ok(["identify", "-format", "%wx%h", str(path)], "identify").stdout.strip()
 
-    size: expected final (width, height). Computed from window + pads when omitted.
+
+def _geom(x, y):
+    """ImageMagick geometry offset "+x+y" with proper signs for negatives."""
+    return f"{'+' if x >= 0 else '-'}{abs(x)}{'+' if y >= 0 else '-'}{abs(y)}"
+
+
+class Image:
+    """A png on disk with the ops a scene needs (ImageMagick underneath).
+
+    Every op edits the file in place, so crop, draw and compose in any
+    order; img.save("name") finally writes <name>.png and <name>.webp
+    into .work/out/.
     """
-    OUT_DIR.mkdir(parents=True, exist_ok=True)
-    tool.activate()
-    tool.sleep(0.3)  # let the compositor finish raising the window
-    left, right, top, bottom = tool._frame_extents()
-    x, y, w, h = tool._client_geometry()
-    frame_x, frame_y = x - left, y - top
-    frame_w, frame_h = w + left + right, h + top + bottom
-    win_png = OUT_DIR / (Path(name).stem + ".win.png")
-    _sh_ok(
-        ["import", "-window", "root", "-crop", f"{frame_w}x{frame_h}+{frame_x}+{frame_y}",
-         "+repage", str(win_png)],
-        "screenshot",
-    )
 
-    pad_l, pad_r, pad_t, pad_b = pads
-    png = OUT_DIR / (Path(name).stem + ".png")
-    final_w, final_h = frame_w + pad_l + pad_r, frame_h + pad_t + pad_b
-    if any(pads):
-        _sh_ok(
-            ["convert", "-size", f"{final_w}x{final_h}", "xc:white",
-             str(win_png), "-geometry", f"+{pad_l}+{pad_t}", "-composite", str(png)],
-            "padding window onto white canvas",
-        )
-        win_png.unlink()
-    else:
-        win_png.rename(png)
+    def __init__(self, path):
+        self.path = Path(path)  # working file under .work/out/ (or a saved png)
 
-    if boxes:
+    def _tmp(self):
+        # always underscore-prefixed: close() sweeps every _* working file
+        return self.path.with_name(f"_{self.path.stem.lstrip('_')}.op{next(_wip_seq)}.png")
+
+    def crop(self, x1, y1, x2, y2):
+        """Crop in place to inclusive corners - same coords as BOXES rects."""
+        return _crop_png(self.path, x1, y1, x2, y2)
+
+    def copy(self):
+        """Independent duplicate on its own working file - crop one, keep the other."""
+        dup = self._tmp()
+        dup.write_bytes(self.path.read_bytes())
+        return Image(dup)
+
+    def draw_box(self, boxes):
+        """Draw BOXES-style red frames / plates / labels on the image.
+
+        boxes: [] or [{"rect": (x1, y1, x2, y2),              # red frame: outer pixel bounds
+                       "label": "text",                        # red serif text
+                       "label_at": (cx, cy),                   # label text center
+                       "plate": (x1, y1, x2, y2)}, ...]        # white plate behind the label
+               coordinates are in pixels of the image, (0, 0) top-left.
+               The frame is drawn as four 2px bands, so every edge lands on exact
+               pixel rows (strokes rasterize differently per coordinate).
+               Draw order: all frames, then all plates, then all labels - so a plate
+               can deliberately cut a frame short, like in the original shots.
+        """
+        if not boxes:
+            return self
+        png = self.path
         args = ["convert", str(png)]
         for box in boxes:
             x1, y1, x2, y2 = (int(v) for v in box["rect"])
@@ -374,13 +487,98 @@ def capture(tool, name, description, boxes, size=None, pads=(0, 0, 0, 0), qualit
                          "-geometry", f"+{lx}+{ly}", "-composite"]
         args.append(str(png))
         _sh_ok(args, "drawing red boxes")
+        return self
 
-    out = OUT_DIR / name
-    _sh_ok(["cwebp", "-q", str(quality), str(png), "-o", str(out)], "cwebp")
+    def add(self, x, y, other):
+        """Composite another Image onto this one, its top-left at (x, y)."""
+        tmp = self._tmp()
+        _sh_ok(
+            ["convert", str(self.path), str(other.path),
+             "-geometry", _geom(x, y), "-composite", str(tmp)],
+            "add",
+        )
+        tmp.replace(self.path)
+        return self
 
-    dims = _sh_ok(["identify", "-format", "%wx%h", str(out)], "identify").stdout.strip()
-    expected = size if size else (final_w, final_h)
-    if dims != f"{expected[0]}x{expected[1]}":
-        raise RobotError(f"{name} came out {dims}, expected {expected[0]}x{expected[1]}")
-    print(f"  captured {name} ({dims}) - {description}", flush=True)
-    return out
+    def add_text(self, x, y, text, size, border=0, fill="red", plate=False):
+        """Text with its top-left at (x, y).
+
+        border>0: white plate behind the text with a `border`-px frame around
+        it; plate=True: white plate without a frame; default: transparent,
+        only the glyphs are drawn.
+        """
+        want_plate = bool(plate or border)
+        label = self._tmp()
+        _sh_ok(
+            ["convert", "-background", "white" if want_plate else "none",
+             "-fill", fill,
+             "-font", LABEL_FONT, "-pointsize", str(int(size)),
+             f"label:{text}", str(label)],
+            "add_text",
+        )
+        w, h = (int(v) for v in _dims(label).split("x"))
+        # plate first, frame after: a frame drawn before the composite would
+        # be half-covered by the label's white background
+        self.add(x, y, Image(label))
+        label.unlink()
+        if border:
+            _sh_ok(
+                ["convert", str(self.path), "-fill", "none",
+                 "-stroke", fill, "-strokewidth", str(int(border)),
+                 "-draw", f"rectangle {x},{y} {x + w - 1},{y + h - 1}",
+                 str(self.path)],
+                "add_text border",
+            )
+        return self
+
+    def save(self, name):
+        """Write .work/out/<name>.png and <name>.webp (quality 90)."""
+        base = name[:-4] if name.endswith(".png") else name[:-5] if name.endswith(".webp") else name
+        png = OUT_DIR / f"{base}.png"
+        OUT_DIR.mkdir(parents=True, exist_ok=True)
+        if self.path != png:
+            if self.path.name.startswith("_"):
+                self.path.replace(png)  # consume the working file
+            else:
+                png.write_bytes(self.path.read_bytes())
+            self.path = png
+        webp = OUT_DIR / f"{base}.webp"
+        _sh_ok(["convert", str(png), "-quality", "90", str(webp)], "save webp")
+        print(f"  saved {png.name} + {webp.name} ({_dims(png)})", flush=True)
+        return self
+
+
+def image_new(width, height, fill="white"):
+    """Blank width x height image; draw/compose on it, then img.save("name")."""
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    path = OUT_DIR / f"_blank-{next(_wip_seq)}.png"
+    _sh_ok(["convert", "-size", f"{width}x{height}", f"xc:{fill}", str(path)], "image_new")
+    return Image(path)
+
+
+def capture(tool, description="", size=None):
+    """Screenshot the tool window (title bar included) into a working image.
+
+    Returns an Image: crop/draw_box/add/add_text anytime, then
+    img.save("name") writes <name>.png and <name>.webp into .work/out/.
+
+    size: expected (width, height) of the shot; RobotError when it differs.
+    """
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    tool.activate()
+    tool.sleep(0.3)  # let the compositor finish raising the window
+    left, right, top, bottom = tool._frame_extents()
+    x, y, w, h = tool._client_geometry()
+    frame_x, frame_y = x - left, y - top
+    frame_w, frame_h = w + left + right, h + top + bottom
+    wip = OUT_DIR / f"_wip-{next(_wip_seq)}.png"
+    _sh_ok(
+        ["import", "-window", "root", "-crop", f"{frame_w}x{frame_h}+{frame_x}+{frame_y}",
+         "+repage", str(wip)],
+        "screenshot",
+    )
+    dims = _dims(wip)
+    if size and dims != f"{size[0]}x{size[1]}":
+        raise RobotError(f"capture came out {dims}, expected {size[0]}x{size[1]}")
+    print(f"  captured ({dims})" + (f" - {description}" if description else ""), flush=True)
+    return Image(wip)

@@ -4,6 +4,10 @@ Run it through main.py; it prepares the clone, settings and publishing.
 """
 from capture_lib import Tool, capture, repo
 
+BOXES = [
+    {"rect": (826, 2, 1103, 28)},
+    {"rect": (201, 184, 505, 324)},
+    ]
 
 def main():
     # 1. put the reference clone back to the pinned commit
@@ -11,20 +15,45 @@ def main():
 
     # 2. open the tool: HEAD~13 shows the 13 newest commits (the list excludes
     #    the base commit itself, so the arg must be one further back)
-    tool = Tool(args=["HEAD~13"], log_name="head-commits.log")
+    tool = Tool(args=["HEAD~13"], log_name="mark-commits.log")
+    # everything below runs inside the finally - no matter which step fails,
+    # the tool gets closed and cannot poison the next run
     try:
         tool.wait_for_window()
         tool.maximize()  # capture in maximized view (screen workarea)
-        tool.sleep(1)  # commit list, diff pane and status labels have settled
 
+        tool.sleep(.1)
+        tool.press("Down")
+
+        tool.sleep(1)
+        tool.click(1230, 324, button=3)
+
+        tool.sleep(.1)
+        tool.press("Down")
+
+        tool.sleep(.1)
+        tool.press("Down")
+
+        tool.sleep(.2)
+        tool.press("Return")              # activate
+
+        tool.sleep(5)
+
+        tool.sleep(2)
+        tool.click(205, 205, button=3)
+        tool.sleep(.5)
+
+        tool.sleep(.5)
         # 3. take the picture (this shot has no red boxes)
         img = capture(
             tool,
             description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
             size=(1920, 1042),
         )
-        img.draw_box([])
-        img.save("head-commits.png")
+        img.draw_box(BOXES)
+        img.save("blame-a-file.png")
+
+        tool.press("Escape")
     finally:
         # 4. close the tool - even when a step above failed
         tool.close()

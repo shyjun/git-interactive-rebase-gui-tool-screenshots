@@ -5,8 +5,9 @@ Run it through main.py; it prepares the clone, settings and publishing.
 from capture_lib import Tool, capture, repo
 
 BOXES = [
-    {"rect": (646, 262, 1253, 641)},
-    {"rect": (815, 622, 1084, 703)},
+    {"rect": (1057, 648, 1246, 689)},
+    {"rect": (659, 373, 1245, 650)},
+    {"rect": (653, 298, 1227, 370)},
     ]
 
 def main():
@@ -15,36 +16,49 @@ def main():
 
     # 2. open the tool: HEAD~13 shows the 13 newest commits (the list excludes
     #    the base commit itself, so the arg must be one further back)
-    tool = Tool(args=["HEAD~13"], log_name="rephrase.log")
+    tool = Tool(args=["HEAD~13"], log_name="mark-commits.log")
     # everything below runs inside the finally - no matter which step fails,
     # the tool gets closed and cannot poison the next run
     try:
         tool.wait_for_window()
-        tool.maximize()  # capture in maximized view (screen workarea)
-        tool.sleep(1)  # commit list, diff pane and status labels have settled
-        tool.click(370, 165, button=3)   # right-click the commit row
-        tool.sleep(.5)  # commit list, diff pane and status labels have settled
+        tool.maximize()
 
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-
-        tool.press("Return")              # activate
         tool.sleep(1)
+        tool.click(230, 165, button=3)
 
+        tool.sleep(.1)
+        tool.press("Down")
+        tool.sleep(.1)
+        tool.press("Down")
+        tool.sleep(.1)
+        tool.press("Down")
+        tool.sleep(.1)
+        tool.press("Down")
+        tool.sleep(.1)
+        tool.press("Down")
+        tool.sleep(.1)
+        tool.press("Down")
+        tool.sleep(.1)
+        tool.press("Down")
+        tool.sleep(.1)
+        tool.press("Down")
+        tool.sleep(.1)
+        tool.press("Down")
+        tool.sleep(.1)
+        tool.press("Down")
+        tool.sleep(.1)
+        tool.press("Down")
+        tool.sleep(.1)
+        tool.press("Return")
+
+        tool.sleep(.1)
+        tool.press("Right")
+        tool.sleep(.1)
+        tool.press("Down")
+        tool.sleep(.1)
+        tool.press("Return")
+
+        tool.sleep(.5)
         # 3. take the picture (this shot has no red boxes)
         img = capture(
             tool,
@@ -52,11 +66,10 @@ def main():
             size=(1920, 1042),
         )
         img.draw_box(BOXES)
-        img.save("rephrase-and-drop-commit.png")
+        img.save("squash-dialogue.png")
 
         tool.press("Escape")
     finally:
-        tool.sleep(.1)
         # 4. close the tool - even when a step above failed
         tool.close()
 

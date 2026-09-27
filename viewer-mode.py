@@ -4,6 +4,11 @@ Run it through main.py; it prepares the clone, settings and publishing.
 """
 from capture_lib import Tool, capture, repo
 
+BOXES = [
+    {"rect": (1156, 807, 1344, 859)},
+    {"rect": (286, 265, 792, 426)},
+    {"rect": (722, 2, 833, 29)},
+    ]
 
 def main():
     # 1. put the reference clone back to the pinned commit
@@ -11,7 +16,7 @@ def main():
 
     # 2. open the tool: HEAD~13 shows the 13 newest commits (the list excludes
     #    the base commit itself, so the arg must be one further back)
-    tool = Tool(args=["HEAD~13"], log_name="head-commits.log")
+    tool = Tool(args=["--viewer-mode", "HEAD~13"], log_name="head-commits.log")
     try:
         tool.wait_for_window()
         tool.maximize()  # capture in maximized view (screen workarea)
@@ -23,8 +28,8 @@ def main():
             description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
             size=(1920, 1042),
         )
-        img.draw_box([])
-        img.save("head-commits.png")
+        img.draw_box(BOXES)
+        img.save("viewer-mode.png")
     finally:
         # 4. close the tool - even when a step above failed
         tool.close()
