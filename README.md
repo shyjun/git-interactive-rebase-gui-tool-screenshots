@@ -16,8 +16,7 @@ Screenshots and visual documentation for git-interactive-rebase-gui-tool.
 Needs an X11 desktop session with `xdotool`, `xdg` tools and ImageMagick
 installed. From the repo root:
 
-    python3 main.py                # capture, commit and push a fresh branch
-    SKIP_PUSH=1 python3 main.py    # capture and commit locally, no push
+    python3 main.py    # capture and commit on a fresh branch
 
 Images land in `screenshots/` and are committed on a `screenshots-YYYYMMDD`
 branch. Settings (tool repo location, pinned commit, scene list) live at the

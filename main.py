@@ -7,15 +7,11 @@ What it does, in plain words:
   2. Prepares a private work folder (.work/) with settings, logs and markers
   3. Clones your vim repo into /tmp (only the first time)
   4. Runs every capture script - one script = one screenshot
-  5. Copies the new images into screenshots/ on a fresh branch and pushes
+  5. Copies the new images into screenshots/ on a fresh branch and commits them
 
 How to run it (from this folder):
 
     python3 main.py
-
-Capture only, do not push (good for testing):
-
-    SKIP_PUSH=1 python3 main.py
 """
 import os
 import shutil
@@ -212,19 +208,7 @@ def step5_publish():
     res = run(["git", "commit", "-m", "capture: " + ", ".join(images)], cwd=SCREENSHOTS_REPO, check=False)
     if res.returncode != 0 and "nothing to commit" not in res.stdout + res.stderr:
         fail(f"commit failed:\n{res.stdout}\n{res.stderr}")
-
-    if os.environ.get("SKIP_PUSH") == "1":
-        print("  SKIP_PUSH=1 - image is committed locally, not pushed")
-        return
-    res = run(["git", "push", "-u", "origin", BRANCH], cwd=SCREENSHOTS_REPO, check=False)
-    if res.returncode != 0:
-        fail(
-            f"push failed:\n{res.stderr}\n"
-            f"The images are committed locally on branch {BRANCH}.\n"
-            f"If the branch already exists on GitHub, delete it first:\n"
-            f"  git -C {SCREENSHOTS_REPO} push origin :{BRANCH}"
-        )
-    print(f"  pushed branch {BRANCH}")
+    print(f"  committed on {BRANCH}")
 
 
 def main():
