@@ -4,6 +4,7 @@ Run it through main.py; it prepares the clone, settings and publishing.
 """
 from capture_lib import Tool, capture, repo
 
+BOXES=[{"rect": (692, 717, 822, 770)}]
 
 def main():
     # 1. put the reference clone back to the pinned commit
@@ -21,7 +22,7 @@ def main():
         tool,
         name="test.webp",
         description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
-        boxes=[],
+        boxes=BOXES,
         size=(1506, 952),
     )
 
