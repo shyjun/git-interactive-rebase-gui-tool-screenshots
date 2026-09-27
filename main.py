@@ -39,6 +39,7 @@ USER_CONFIG = Path.home() / ".config"
 # One line per screenshot: (script, [images the script must produce]).
 SCENES = [
     ("head-commits.py", ["head-commits.webp"]),
+    ("rephrase-and-drop-commit.py", ["rephrase-and-drop-commit.webp"]),
 ]
 # ==========================================================
 
