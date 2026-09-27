@@ -123,6 +123,35 @@ class Tool:
             f"--- log tail ---\n{log_tail(self._log_path)}"
         )
 
+    def wait_for_name(self, marker, timeout=10):
+        """Block until any window whose title matches marker exists."""
+        deadline = time.time() + timeout
+        while time.time() < deadline:
+            res = _sh(["xdotool", "search", "--name", marker])
+            if res.stdout.split():
+                return
+            time.sleep(0.3)
+        raise RobotError(f"no window matching {marker!r} after {timeout}s")
+
+    def press(self, keys):
+        """Send key presses (xdotool key syntax, e.g. 'Escape', 'ctrl+q')."""
+        _sh_ok(["xdotool", "key", "--clearmodifiers", keys], "key")
+
+    def click(self, rel_x, rel_y, button=1):
+        """Click at frame-relative coordinates (origin: window frame top-left,
+        the same space the capture boxes use when pads are 0)."""
+        self.activate()
+        left, _, top, _ = self._frame_extents()
+        x, y, _, _ = self._client_geometry()
+        _sh_ok(
+            ["xdotool", "mousemove", "--sync", str(x - left + int(rel_x)),
+             str(y - top + int(rel_y))],
+            "mousemove",
+        )
+        time.sleep(0.2)
+        _sh_ok(["xdotool", "click", str(button)], "click")
+        time.sleep(0.2)
+
     def activate(self):
         """Raise and focus our window (so nothing overlaps it during capture)."""
         _sh_ok(["xdotool", "windowactivate", "--sync", self.window_id], "windowactivate")
