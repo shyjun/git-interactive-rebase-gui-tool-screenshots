@@ -13,7 +13,7 @@ def main():
     #    the base commit itself, so the arg must be one further back)
     tool = Tool(args=["HEAD~13"], log_name="head-commits.log")
     tool.wait_for_window()
-    tool.set_size(1506, 952)  # exact size of the original screenshot, title bar included
+    tool.maximize()  # capture in maximized view (screen workarea)
     tool.sleep(4)  # commit list, diff pane and status labels have settled
 
     # 3. take the picture (this shot has no red boxes)
@@ -22,7 +22,7 @@ def main():
         name="head-commits.webp",
         description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
         boxes=[],
-        size=(1506, 952),
+        size=(1920, 1042),
     )
 
     # 4. close the tool again

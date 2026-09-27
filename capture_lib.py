@@ -205,6 +205,61 @@ class Tool:
         _, _, w, h = self._client_geometry()
         raise RobotError(f"window stayed at {w}x{h}, expected {client_w}x{client_h} (is it maximized?)")
 
+    def _workarea(self):
+        """(x, y, w, h) of the usable screen area (screen minus panels)."""
+        res = _sh(["xprop", "-root", "_NET_WORKAREA"])
+        match = re.search(r"=\s*(\d+),\s*(\d+),\s*(\d+),\s*(\d+)", res.stdout)
+        if match:
+            return tuple(int(g) for g in match.groups())
+        w, h = _sh_ok(["xdotool", "getdisplaygeometry"], "getdisplaygeometry").stdout.split()
+        return 0, 0, int(w), int(h)
+
+    def _settled(self, ww, wh, timeout):
+        """True while the window frame (borders included) is ~the workarea size."""
+        deadline = time.time() + timeout
+        while True:
+            left, right, top, bottom = self._frame_extents()
+            _, _, w, h = self._client_geometry()
+            if abs(w + left + right - ww) <= 2 and abs(h + top + bottom - wh) <= 2:
+                return True
+            if time.time() >= deadline:
+                return False
+            time.sleep(0.3)
+
+    def maximize(self):
+        """Grow the window to fill the screen workarea (for maximized captures).
+
+        Sets the geometry by hand (KWin's Alt+F10 shortcut does not fire for
+        synthetic keys here): client size = workarea minus the frame extents,
+        frame origin slid to the workarea origin so nothing is cut off.
+        """
+        self.activate()
+        wx, wy, ww, wh = self._workarea()
+        if self._settled(ww, wh, 0.5):  # already full-workarea (e.g. relaunched)
+            return
+        left, right, top, bottom = self._frame_extents()
+        _sh_ok(
+            ["xdotool", "windowsize", "--sync", self.window_id,
+             str(ww - left - right), str(wh - top - bottom)],
+            "windowsize",
+        )
+        for _ in range(3):  # frame origin should sit at the workarea origin
+            x, y, _, _ = self._client_geometry()
+            left, _, top, _ = self._frame_extents()
+            dx, dy = (wx + left) - x, (wy + top) - y
+            if abs(dx) <= 1 and abs(dy) <= 1:
+                break
+            _sh_ok(
+                ["xdotool", "windowmove", "--sync", "--relative",
+                 self.window_id, str(dx), str(dy)],
+                "windowmove",
+            )
+            time.sleep(0.3)
+        if self._settled(ww, wh, 3):
+            return
+        _, _, w, h = self._client_geometry()
+        raise RobotError(f"window stayed at {w}x{h}, workarea is {ww}x{wh}")
+
     def close(self):
         """Quit the tool with Ctrl+Q (its own shortcut) and wait for a clean exit."""
         if self.window_id:
