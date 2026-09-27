@@ -1,0 +1,17 @@
+# Same lint rules as the tool repo (pyproject.toml), so the robot scripts
+# are checked identically wherever they live.
+target-version = "py310"
+line-length = 120
+
+[lint]
+select = ["F", "E", "W"]
+ignore = [
+    "F401",   # unused imports (mixin re-exports)
+    "F811",   # redefinition of unused name (mixin overrides)
+    "F841",   # unused local variable (button refs, QApplication.instance() kept for side-effects)
+    "E501",   # line too long
+    "E701",   # multiple statements on one line
+    "E722",   # bare except (intentional for git subprocess calls)
+    "E741",   # ambiguous variable names
+    "W291",   # trailing whitespace
+]
