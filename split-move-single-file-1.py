@@ -5,8 +5,8 @@ Run it through main.py; it prepares the clone, settings and publishing.
 from capture_lib import Tool, capture, repo
 
 BOXES = [
-    {"rect": (596, 429, 988, 548)},
-    {"rect": (220, 428, 579, 458)},
+    {"rect": (517, 388, 876, 441)},
+    {"rect": (802, 800, 1094, 850)},
     ]
 
 def main():
