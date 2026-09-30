@@ -4,12 +4,12 @@ Run it through main.py; it prepares the clone, settings and publishing.
 """
 from capture_lib import Tool, capture, repo
 
-BOXES = [
+BOXES1 = [
     {"rect": (517, 388, 876, 441)},
     {"rect": (802, 800, 1094, 850)},
     ]
 
-BOXES1 = [
+BOXES2 = [
     {"rect": (1150, 65, 1915, 374)},
     {"rect": (16, 184, 761, 214)},
     ]
@@ -75,7 +75,7 @@ def main():
             description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
             size=(1920, 1042),
         )
-        img.draw_box(BOXES)
+        img.draw_box(BOXES1)
         img.save("split-move-single-file-1.png")
 
         tool.sleep(1)
@@ -94,7 +94,7 @@ def main():
             description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
             size=(1920, 1042),
         )
-        img.draw_box(BOXES)
+        img.draw_box(BOXES2)
         img.save("split-move-single-file-2.png")
 
 
