@@ -63,8 +63,8 @@ def main():
         tool.sleep(1)
         tool.click(536, 411)
 
-        tool.sleep(1)
-        tool.click(896, 829)
+        #tool.sleep(1)
+        #tool.click(896, 829)
 
         #tool.sleep(1)
         #tool.click(896, 829)
