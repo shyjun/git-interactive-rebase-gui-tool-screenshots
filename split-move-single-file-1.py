@@ -87,6 +87,9 @@ def main():
         tool.sleep(1)
         tool.click(1154, 522)
 
+        tool.sleep(1)
+        tool.click(255, 200)
+
         tool.sleep(.5)
         # 3. take the picture (this shot has no red boxes)
         img = capture(
