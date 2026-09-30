@@ -40,8 +40,8 @@ def main():
         img.add_text(500, 11, "repo details", 20, border=1, fill="red")
         img.add_text(1423, 535, "diff pane", 20, border=1, fill="red")
         img.add_text(1636, 985, "num of commits", 20, border=1, fill="red")
-        img.add_text(1357, 980, "settings", 20, border=1, fill="red")
-        img.add_text(30, 980, "zoom", 20, border=1, fill="red")
+        img.add_text(1357, 985, "settings", 20, border=1, fill="red")
+        img.add_text(30, 985, "zoom", 20, border=1, fill="red")
         img.add_text(128, 827, "themes", 20, border=1, fill="red")
 
         img.save("main-interface.png")
