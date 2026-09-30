@@ -9,6 +9,11 @@ BOXES = [
     {"rect": (802, 800, 1094, 850)},
     ]
 
+BOXES1 = [
+    {"rect": (1150, 65, 1915, 374)},
+    {"rect": (16, 184, 761, 214)},
+    ]
+
 def main():
     # 1. put the reference clone back to the pinned commit
     repo.reset_to_base()
@@ -78,6 +83,9 @@ def main():
 
         tool.sleep(1)
         tool.click(896, 766)
+
+        tool.sleep(1)
+        tool.click(1154, 522)
 
         tool.sleep(.5)
         # 3. take the picture (this shot has no red boxes)
