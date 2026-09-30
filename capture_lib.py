@@ -220,6 +220,30 @@ class Tool:
         _sh_ok(["xdotool", "click", str(button)], "click")
         time.sleep(0.2)
 
+    def drag(self, x1, y1, x2, y2, steps=12):
+        """Press at (x1, y1), drag to (x2, y2), release. Frame-relative
+        coordinates, same space as click()."""
+        self.activate()
+        left, _, top, _ = self._frame_extents()
+        x, y, _, _ = self._client_geometry()
+        sx, sy = x - left, y - top
+        _sh_ok(["xdotool", "mousemove", str(sx + int(x1)), str(sy + int(y1))],
+               "drag move")
+        time.sleep(0.2)
+        _sh_ok(["xdotool", "mousedown", "1"], "drag mousedown")
+        time.sleep(0.1)
+        # interpolated steps: Qt needs the motion to exceed its drag threshold
+        # (~10px) and each hop updates the drop indicator; no --sync here -
+        # mid-drag it would stall whenever a hop lands on the current position
+        for i in range(1, steps + 1):
+            fx = sx + int(x1 + (x2 - x1) * i / steps)
+            fy = sy + int(y1 + (y2 - y1) * i / steps)
+            _sh_ok(["xdotool", "mousemove", str(fx), str(fy)], "drag move")
+            time.sleep(0.03)
+        time.sleep(0.2)
+        _sh_ok(["xdotool", "mouseup", "1"], "drag mouseup")
+        time.sleep(0.3)  # drop event + dialog
+
     def activate(self):
         """Raise and focus our window (so nothing overlaps it during capture)."""
         active = _sh(["xdotool", "getactivewindow"]).stdout.strip()

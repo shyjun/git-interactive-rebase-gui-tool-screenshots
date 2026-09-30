@@ -66,7 +66,9 @@ SCENES = [
     #("main-interface.py", ["main-interface.png"]),
     #("plain-file-tree-diff.py", ["plain-file-tree-diff.png"]),
     #("split-move-single-file-1.py", ["split-move-single-file-1.png"]),
-    ("split-each-to-separate.py", ["split-each-to-separate.png"]),
+    #("split-each-to-separate.py", ["split-each-to-separate.png"]),
+    #("split-all-to-separate.py", ["split-all-to-separate.png"]),
+    ("reorder-commit.py", ["reorder-commit.png"]),
 
     #("test.py", ["test.png"]),
 

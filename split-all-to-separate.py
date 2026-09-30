@@ -5,7 +5,7 @@ Run it through main.py; it prepares the clone, settings and publishing.
 from capture_lib import Tool, capture, repo
 
 BOXES = [
-    {"rect": (11, 174, 811, 327)},
+    {"rect": (9, 138, 623, 220)},
     {"rect": (1151, 67, 1915, 331)},
     ]
 
@@ -24,7 +24,7 @@ def main():
         tool.maximize()
 
         tool.sleep(1)
-        tool.click(231, 199, button=3)
+        tool.click(220, 165, button=3)
 
         tool.sleep(.1)
         tool.press("Down")
@@ -57,19 +57,16 @@ def main():
         tool.press("Right")
         tool.sleep(.1)
         tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
 
         tool.sleep(.1)
         tool.press("Return")
 
         tool.sleep(1)
-        tool.click(1059, 535)
+        tool.click(1078, 545)
 
         tool.sleep(1)
-        tool.click(1115, 520)
+        tool.click(1155, 521)
+
 
         tool.sleep(.5)
         # 3. take the picture (this shot has no red boxes)
@@ -81,6 +78,8 @@ def main():
         img.draw_box(BOXES)
         img.save("split-each-to-separate.png")
 
+        tool.sleep(.5)
+        tool.press("Escape")
 
         tool.sleep(.5)
         tool.press("Escape")
