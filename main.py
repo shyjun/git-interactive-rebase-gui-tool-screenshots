@@ -63,7 +63,8 @@ SCENES = [
     #("rescan-repository.py", ["rescan-repository.png"]),
     #("add-untracked-files.py", ["add-untracked-files.png"]),
     #("commit-viewer-and-file-operations-menu.py", ["commit-viewer-and-file-operations-menu.png"]),
-    ("main-interface.py", ["main-interface.png"]),
+    #("main-interface.py", ["main-interface.png"]),
+    ("plain-file-tree-diff.py", ["plain-file-tree-diff.png"]),
 
     #("test.py", ["test.png"]),
 
