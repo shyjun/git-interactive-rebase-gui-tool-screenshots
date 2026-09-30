@@ -4,6 +4,10 @@ Run it through main.py; it prepares the clone, settings and publishing.
 """
 from capture_lib import Tool, capture, image_new, repo
 
+BOXES = [
+    {"rect": (517, 148, 1384, 808)},
+    ]
+
 
 def main():
     # 1. put the reference clone back to the pinned commit
@@ -27,30 +31,75 @@ def main():
         tool.press("Return")              # activate
 
         # 3. take the picture (this shot has no red boxes)
+        tool.sleep(.2)
         img = capture(
             tool,
             description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
             size=(1920, 1042),
         )
+        img.draw_box(BOXES)
+        img.add_text(645, 144, " plain diff ", 25, border=1, fill="red")
+        img.crop(517, 148, 1384, 808)
 
 
-        '''
-        img.draw_box([])
+        plain = img.copy()
+        img.draw_box(BOXES)
+        plain.save("plain.png")
 
-        orig = img.copy()
-        img.crop(1232, 810, 1342, 861)
+        tool.sleep(.2)
+        tool.click(664, 353)
+        # 3. take the picture (this shot has no red boxes)
+        tool.sleep(.2)
+        img = capture(
+            tool,
+            description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
+            size=(1920, 1042),
+        )
+        img.draw_box(BOXES)
+        img.add_text(645, 144, " filewise diff ", 25, border=1, fill="red")
+        img.crop(517, 148, 1384, 808)
 
-        orig.crop(3, 811, 127, 856)
+        filewise = img.copy()
+        filewise.save("filewise.png")
 
-        final = image_new(500, 300)
-        final.add(0, 0, img)
-        final.add(100,100, orig)
+        tool.sleep(.2)
+        tool.click(770, 351)
+        # 3. take the picture (this shot has no red boxes)
+        tool.sleep(.2)
+        img = capture(
+            tool,
+            description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
+            size=(1920, 1042),
+        )
+        img.draw_box(BOXES)
+        img.add_text(645, 144, " treewise diff ", 25, border=1, fill="red")
+        img.crop(517, 148, 1384, 808)
 
-        final.add_text(200,200, "test string", 25)
-        final.save("plain-file-tree-diff.png")
-        '''
+        treewise = img.copy()
+        treewise.save("treewise.png")
 
-        img.save("plain-file-tree-diff.png")
+        width = 1384-517
+        height = 808-148
+        extra = 10
+
+        final = image_new((width+extra*3), height)
+
+        x = 0
+        y = 0
+        final.add(x, y, plain)
+        x = x + width + 10
+        final.add(x, y, filewise)
+        x = x + width + 10
+        final.add(x, y, treewise)
+        treewise.save("plain-file-tree-diff.png")
+
+
+
+        tool.sleep(.5)
+        tool.press("Escape")
+
+        tool.sleep(.5)
+        tool.press("Escape")
 
     finally:
         # 4. close the tool - even when a step above failed

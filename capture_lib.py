@@ -571,8 +571,9 @@ def capture(tool, description="", size=None):
     size: expected (width, height) of the shot; RobotError when it differs.
     """
     OUT_DIR.mkdir(parents=True, exist_ok=True)
+    tool.sleep(.1)
     tool.activate()
-    tool.sleep(0.3)  # let the compositor finish raising the window
+    tool.sleep(0.5)  # let the compositor finish raising the window
     left, right, top, bottom = tool._frame_extents()
     x, y, w, h = tool._client_geometry()
     frame_x, frame_y = x - left, y - top
