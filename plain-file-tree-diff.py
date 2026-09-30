@@ -82,16 +82,16 @@ def main():
         height = 808-148
         extra = 10
 
-        final = image_new((width+extra*3), height)
+        final = image_new((width+extra)*3, height)
 
         x = 0
         y = 0
         final.add(x, y, plain)
-        x = x + width + 10
+        x = x + width + extra
         final.add(x, y, filewise)
-        x = x + width + 10
+        x = x + width + extra
         final.add(x, y, treewise)
-        treewise.save("plain-file-tree-diff.png")
+        final.save("plain-file-tree-diff.png")
 
 
 
