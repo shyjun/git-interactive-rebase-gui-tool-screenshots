@@ -62,10 +62,8 @@ SCENES = [
     #("rebase-options.py", ["rebase-options.png"]),
     #("rescan-repository.py", ["rescan-repository.png"]),
     #("add-untracked-files.py", ["add-untracked-files.png"]),
-
-    ("commit-viewer-and-file-operations-menu.py", ["commit-viewer-and-file-operations-menu.png"]),
-
-
+    #("commit-viewer-and-file-operations-menu.py", ["commit-viewer-and-file-operations-menu.png"]),
+    ("main-interface.py", ["main-interface.png"]),
 
     #("test.py", ["test.png"]),
 
