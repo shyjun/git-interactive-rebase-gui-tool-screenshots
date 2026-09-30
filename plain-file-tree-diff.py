@@ -44,7 +44,6 @@ def main():
 
         plain = img.copy()
         img.draw_box(BOXES)
-        plain.save("plain.png")
 
         tool.sleep(.2)
         tool.click(664, 353)
@@ -60,7 +59,6 @@ def main():
         img.crop(517, 148, 1384, 808)
 
         filewise = img.copy()
-        filewise.save("filewise.png")
 
         tool.sleep(.2)
         tool.click(770, 351)
@@ -76,7 +74,6 @@ def main():
         img.crop(517, 148, 1384, 808)
 
         treewise = img.copy()
-        treewise.save("treewise.png")
 
         width = 1384-517
         height = 808-148
@@ -92,8 +89,6 @@ def main():
         x = x + width + extra
         final.add(x, y, treewise)
         final.save("plain-file-tree-diff.png")
-
-
 
         tool.sleep(.5)
         tool.press("Escape")

@@ -64,7 +64,8 @@ SCENES = [
     #("add-untracked-files.py", ["add-untracked-files.png"]),
     #("commit-viewer-and-file-operations-menu.py", ["commit-viewer-and-file-operations-menu.png"]),
     #("main-interface.py", ["main-interface.png"]),
-    ("plain-file-tree-diff.py", ["plain-file-tree-diff.png"]),
+    #("plain-file-tree-diff.py", ["plain-file-tree-diff.png"]),
+    ("split-move-single-file-1.py", ["split-move-single-file-1.png"]),
 
     #("test.py", ["test.png"]),
 
