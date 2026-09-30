@@ -60,6 +60,12 @@ def main():
         tool.sleep(.1)
         tool.press("Return")
 
+        tool.sleep(1)
+        tool.click(536, 411)
+
+        tool.sleep(1)
+        tool.click(896, 829)
+
         tool.sleep(.5)
         # 3. take the picture (this shot has no red boxes)
         img = capture(
