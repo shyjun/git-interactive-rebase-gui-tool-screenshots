@@ -57,8 +57,8 @@ def main():
         )
 
         img.draw_box(BOXES)
-        img.add_text(687, 143, " commit viewer ", 20, border=1, fill="red")
-        img.add_text(770, 364, " file-operations menu ", 20, border=1, fill="red")
+        img.add_text(687, 143, "   commit viewer   ", 20, border=1, fill="red")
+        img.add_text(770, 364, "   file-operations menu   ", 20, border=1, fill="red")
         img.save("commit-viewer-and-file-operations-menu.png")
 
 
