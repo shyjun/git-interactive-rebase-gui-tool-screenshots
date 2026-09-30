@@ -5,7 +5,14 @@ Run it through main.py; it prepares the clone, settings and publishing.
 from capture_lib import Tool, capture, repo
 
 BOXES = [
-    {"rect": (757, 293, 1142, 669)},
+    {"rect": (587, 5, 1091, 28)},
+    {"rect": (4, 68, 1148, 788)},
+    {"rect": (1149, 70, 1914, 788)},
+    {"rect": (1158, 230, 1912, 284)},
+    {"rect": (1477, 1006, 1906, 1037)},
+    {"rect": (1346, 1008, 1473, 1040)},
+    {"rect": (2, 1012, 162, 1037)},
+    {"rect": (4, 808, 137, 861)},
     ]
 
 
