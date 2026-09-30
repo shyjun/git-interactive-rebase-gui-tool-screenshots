@@ -506,14 +506,20 @@ class Image:
         border>0: white plate behind the text with a `border`-px frame around
         it; plate=True: white plate without a frame; default: transparent,
         only the glyphs are drawn.
+
+        Spaces pad the plate: "   text   " keeps leading and trailing
+        spaces (label: drops leading ones, so they are rendered as
+        no-break spaces - same glyph, same width).
         """
         want_plate = bool(plate or border)
+        lead = len(text) - len(text.lstrip(" "))
+        rendered = "\u00a0" * lead + text[lead:] if lead else text
         label = self._tmp()
         _sh_ok(
             ["convert", "-background", "white" if want_plate else "none",
              "-fill", fill,
              "-font", LABEL_FONT, "-pointsize", str(int(size)),
-             f"label:{text}", str(label)],
+             f"label:{rendered}", str(label)],
             "add_text",
         )
         w, h = (int(v) for v in _dims(label).split("x"))
