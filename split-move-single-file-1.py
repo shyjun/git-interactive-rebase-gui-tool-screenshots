@@ -63,13 +63,6 @@ def main():
         tool.sleep(1)
         tool.click(536, 411)
 
-        #tool.sleep(1)
-        #tool.click(896, 829)
-
-        #tool.sleep(1)
-        #tool.click(896, 829)
-
-
         tool.sleep(.5)
         # 3. take the picture (this shot has no red boxes)
         img = capture(
@@ -80,12 +73,30 @@ def main():
         img.draw_box(BOXES)
         img.save("split-move-single-file-1.png")
 
+        tool.sleep(1)
+        tool.click(896, 829)
+
+        tool.sleep(1)
+        tool.click(896, 766)
+
+        tool.sleep(.5)
+        # 3. take the picture (this shot has no red boxes)
+        img = capture(
+            tool,
+            description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
+            size=(1920, 1042),
+        )
+        img.draw_box(BOXES)
+        img.save("split-move-single-file-2.png")
+
+
         tool.sleep(.5)
         tool.press("Escape")
+
     finally:
         tool.sleep(.5)
         # 4. close the tool - even when a step above failed
-        #tool.close()
+        tool.close()
 
 
 if __name__ == "__main__":
