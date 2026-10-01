@@ -69,10 +69,13 @@ SCENES += [("plain-file-tree-diff.py", ["plain-file-tree-diff.png"])]
 SCENES += [("split-each-to-separate.py", ["split-each-to-separate.png"])]
 SCENES += [("split-all-to-separate.py", ["split-all-to-separate.png"])]
 SCENES += [("drag-reorder.py", ["drag-reorder.png"])]
-'''
 SCENES += [("split-move-single-file-1.py", ["split-move-single-file-1.png", "split-move-single-file-2.png"])]
 SCENES += [("rescan-repository.py", ["rescan-repository.png", "commit-selectively.png"])]
 SCENES += [("refine-changes-in-file.py", ["refine-changes-in-file-1.png", "refine-changes-in-file-2.png"])]
+'''
+
+SCENES += [("browse-branch.py", ["browse-branch.png"])]
+
 # SCENES += [("test.py", ["test.png"])]
 
 

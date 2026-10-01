@@ -455,9 +455,29 @@ class Image:
         # always underscore-prefixed: close() sweeps every _* working file
         return self.path.with_name(f"_{self.path.stem.lstrip('_')}.op{next(_wip_seq)}.png")
 
+    def getsize(self):
+        """(width, height) of the image in pixels."""
+        w, h = _dims(self.path).split("x")
+        return int(w), int(h)
+
     def crop(self, x1, y1, x2, y2):
         """Crop in place to inclusive corners - same coords as BOXES rects."""
         return _crop_png(self.path, x1, y1, x2, y2)
+
+    def resize(self, x_percent, y_percent=None):
+        """Scale in place; percentages of the CURRENT size (50, 50 → half).
+        y defaults to x for a uniform scale. Later draw_box/crop coordinates
+        are in the resized pixel space. Returns self (chainable)."""
+        y = y_percent if y_percent is not None else x_percent
+        tmp = self._tmp()
+        _sh_ok(
+            ["convert", str(self.path), "-resize", f"{x_percent}%x{y}%", str(tmp)],
+            "resize",
+        )
+        tmp.replace(self.path)
+        got = _sh_ok(["identify", "-format", "%wx%h", str(self.path)], "identify").stdout.strip()
+        print(f"  resized {self.path.name} ({got})", flush=True)
+        return self
 
     def copy(self):
         """Independent duplicate on its own working file - crop one, keep the other."""
