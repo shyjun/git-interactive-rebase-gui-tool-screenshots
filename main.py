@@ -69,7 +69,7 @@ SCENES = [
     #("split-all-to-separate.py", ["split-all-to-separate.png"]),
     #("drag-reorder.py", ["drag-reorder.png"]),
 
-    ("split-move-single-file-1.py", ["split-move-single-file-1.png"]),
+    ("split-move-single-file-1.py", ["split-move-single-file-1.png", "split-move-single-file-2.png"]),
 
     #("test.py", ["test.png"]),
 ]
