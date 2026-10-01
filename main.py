@@ -57,7 +57,6 @@ SCENES += [("browse-file-log.py", ["browse-file-log.png"])]
 SCENES += [("browse-reflog.py", ["browse-reflog.png"])]
 SCENES += [("browse-stash.py", ["browse-stash.png"])]
 SCENES += [("consolidated-diff.py", ["consolidated-diff.png"])]
-SCENES += [("viewer-mode.py", ["viewer-mode.png"])]
 SCENES += [("dark-theme.py", ["dark-theme.png"])]
 SCENES += [("blame-a-file.py", ["blame-a-file.png"])]
 SCENES += [("browse-tags.py", ["browse-tags.png"])]
@@ -72,9 +71,9 @@ SCENES += [("drag-reorder.py", ["drag-reorder.png"])]
 SCENES += [("split-move-single-file-1.py", ["split-move-single-file-1.png", "split-move-single-file-2.png"])]
 SCENES += [("rescan-repository.py", ["rescan-repository.png", "commit-selectively.png"])]
 SCENES += [("refine-changes-in-file.py", ["refine-changes-in-file-1.png", "refine-changes-in-file-2.png"])]
-'''
-
 SCENES += [("browse-branch.py", ["browse-branch.png"])]
+'''
+SCENES += [("viewer-mode.py", ["viewer-mode.png"])]
 
 # SCENES += [("test.py", ["test.png"])]
 
