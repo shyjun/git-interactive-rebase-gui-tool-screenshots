@@ -116,7 +116,7 @@ def main():
         final.add(0, (y2/2)-50, branch_config)
         final.add(x,0, img)
 
-        img.save("browse-branch.png")
+        final.save("browse-branch.png")
 
         tool.sleep(.5)
         tool.press("Escape")
