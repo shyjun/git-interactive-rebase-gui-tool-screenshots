@@ -6,7 +6,7 @@ from capture_lib import Tool, capture, repo
 
 BOXES = [
     {"rect": (1156, 807, 1344, 859)},
-    {"rect": (286, 265, 792, 426)},
+    {"rect": (695, 400, 1205, 562)},
     {"rect": (722, 2, 833, 29)},
     ]
 

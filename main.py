@@ -41,7 +41,6 @@ USER_CONFIG = Path.home() / ".config"
 
 SCENES = []
 '''
-SCENES += [("head-commits.py", ["head-commits.png"])]
 SCENES += [("rephrase-and-drop-commit.py", ["rephrase-and-drop-commit.png"])]
 SCENES += [("mark-commits.py", ["mark-commits.png"])]
 SCENES += [("tag-commit.py", ["tag-commit.png"])]
@@ -71,9 +70,12 @@ SCENES += [("drag-reorder.py", ["drag-reorder.png"])]
 SCENES += [("split-move-single-file-1.py", ["split-move-single-file-1.png", "split-move-single-file-2.png"])]
 SCENES += [("rescan-repository.py", ["rescan-repository.png", "commit-selectively.png"])]
 SCENES += [("refine-changes-in-file.py", ["refine-changes-in-file-1.png", "refine-changes-in-file-2.png"])]
-SCENES += [("browse-branch.py", ["browse-branch.png"])]
-'''
 SCENES += [("viewer-mode.py", ["viewer-mode.png"])]
+SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
+'''
+
+#SCENES += [("browse-branch.py", ["browse-branch.png"])]
+SCENES += [("head-commits.py", ["head-commits.png"])]
 
 # SCENES += [("test.py", ["test.png"])]
 
