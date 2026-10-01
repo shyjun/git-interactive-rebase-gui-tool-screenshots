@@ -12,9 +12,7 @@ def main():
     # 1. put the reference clone back to the pinned commit
     repo.reset_to_base()
 
-    _sh_ok(["git", "-C", CLONE_DIR, "branch", "test", ""])
-    #git branch <new-branch-name> <commit-hash>
-
+    _sh_ok(["git", "-C", CLONE_DIR, "branch", "test", "HEAD~5"])
 
     # 2. open the tool: HEAD~13 shows the 13 newest commits (the list excludes
     #    the base commit itself, so the arg must be one further back)

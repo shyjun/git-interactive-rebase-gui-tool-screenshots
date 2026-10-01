@@ -2,7 +2,7 @@
 
 Run it through main.py; it prepares the clone, settings and publishing.
 """
-from capture_lib import Tool, capture, repo, image_new
+from capture_lib import Tool, capture, repo, image_new, _sh_ok
 
 BOXES = [
     {"rect": (349, 187, 669, 332)},
@@ -11,6 +11,7 @@ BOXES = [
 def main():
     # 1. put the reference clone back to the pinned commit
     repo.reset_to_base()
+    repo.create_test_branch()
 
     # 2. open the tool: HEAD~13 shows the 13 newest commits (the list excludes
     #    the base commit itself, so the arg must be one further back)
@@ -65,31 +66,15 @@ def main():
         tool.sleep(.5)
 
         tool.sleep(.1)
-        tool.press("o")
+        tool.press("t")
         tool.sleep(.1)
-        tool.press("r")
-        tool.sleep(.1)
-        tool.press("i")
-        tool.sleep(.1)
-        tool.press("g")
-        tool.sleep(.1)
-        tool.press("i")
-        tool.sleep(.1)
-        tool.press("n")
-        tool.sleep(.1)
-        tool.press("slash")
-        tool.sleep(.1)
-        tool.press("m")
-        tool.sleep(.1)
-        tool.press("a")
+        tool.press("e")
         tool.sleep(.1)
         tool.press("s")
         tool.sleep(.1)
         tool.press("t")
         tool.sleep(.1)
-        tool.press("e")
-        tool.sleep(.1)
-        tool.press("r")
+
 
         tool.sleep(.5)
         tool.click(1076, 556)

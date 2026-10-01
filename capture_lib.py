@@ -120,6 +120,9 @@ class Repo:
             "update-ref origin/master",
         )
 
+    def create_test_branch(self):
+        _sh_ok(["git", "-C", CLONE_DIR, "branch", "test", "HEAD~5"], "create test branch")
+
 
 repo = Repo()
 
