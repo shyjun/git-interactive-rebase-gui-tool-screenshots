@@ -71,11 +71,12 @@ SCENES += [("split-move-single-file-1.py", ["split-move-single-file-1.png", "spl
 SCENES += [("rescan-repository.py", ["rescan-repository.png", "commit-selectively.png"])]
 SCENES += [("refine-changes-in-file.py", ["refine-changes-in-file-1.png", "refine-changes-in-file-2.png"])]
 SCENES += [("viewer-mode.py", ["viewer-mode.png"])]
-SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
 SCENES += [("head-commits.py", ["head-commits.png"])]
+SCENES += [("browse-branch.py", ["browse-branch.png"])]
 '''
 
-SCENES += [("browse-branch.py", ["browse-branch.png"])]
+SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
+
 
 # SCENES += [("test.py", ["test.png"])]
 

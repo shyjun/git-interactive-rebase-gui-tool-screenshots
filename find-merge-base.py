@@ -32,47 +32,27 @@ def main():
         tool.press("Return")              # activate
 
         tool.sleep(.5)
+        tool.press("t")
+        tool.sleep(.1)
+        tool.press("e")
+        tool.sleep(.1)
+        tool.press("s")
+        tool.sleep(.1)
+        tool.press("t")
+        tool.sleep(.1)
+
         # 3. take the picture (this shot has no red boxes)
         branch_config = capture(
             tool,
             description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
             size=(1920, 1042),
         )
-        branch_config.crop(756, 362, 1144, 600)
+        branch_config.crop(756, 350, 1143, 613)
+        branch_config.save("1.png")
         tool.sleep(.5)
 
-        tool.sleep(.1)
-        tool.press("o")
-        tool.sleep(.1)
-        tool.press("r")
-        tool.sleep(.1)
-        tool.press("i")
-        tool.sleep(.1)
-        tool.press("g")
-        tool.sleep(.1)
-        tool.press("i")
-        tool.sleep(.1)
-        tool.press("n")
-        tool.sleep(.1)
-        tool.press("slash")
-        tool.sleep(.1)
-        tool.press("m")
-        tool.sleep(.1)
-        tool.press("a")
-        tool.sleep(.1)
-        tool.press("s")
-        tool.sleep(.1)
-        tool.press("t")
-        tool.sleep(.1)
-        tool.press("e")
-        tool.sleep(.1)
-        tool.press("r")
-
         tool.sleep(.5)
-        tool.click(1076, 556)
-
-        tool.sleep(.5)
-        tool.click(359, 197, button=3)
+        tool.click(1089, 573)
 
         tool.sleep(.5)
         # 3. take the picture (this shot has no red boxes)
@@ -82,24 +62,16 @@ def main():
             size=(1920, 1042),
         )
         tool.sleep(.5)
-        img.draw_box(BOXES)
-
-        x,y=branch_config.getsize()
-
-        img.resize(70, 70)
-        x2,y2 = img.getsize()
-
-        final = image_new(x+x2, y2)
-        final.add(0, (y2/2)-50, branch_config)
-        final.add(x,0, img)
-
-        final.add_text(56, 303, " branch details ", 20, border=1, fill="red")
-        final.add_text(646, 5, " browse branch window ", 20, border=1, fill="red")
-
-        final.save("browse-branch.png")
-        img.save("find-merge-base.png")
+        img.crop(705, 375, 1196, 587)
+        img.save("2.png")
 
 
+        final = image_new(947, 290)
+        final.add(3, 17, branch_config)
+        final.add(448, 39, img)
+
+
+        final.save("find-merge-base.png")
 
         tool.sleep(.5)
         tool.press("Escape")
@@ -107,6 +79,8 @@ def main():
         tool.press("Escape")
         tool.sleep(.5)
         tool.press("Escape")
+
+
     finally:
         tool.sleep(.5)
         # 4. close the tool - even when a step above failed
