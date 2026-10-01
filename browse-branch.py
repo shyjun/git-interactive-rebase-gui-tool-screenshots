@@ -59,15 +59,6 @@ def main():
         tool.sleep(.1)
         tool.press("Return")              # activate
 
-        tool.sleep(.5)
-        # 3. take the picture (this shot has no red boxes)
-        branch_config = capture(
-            tool,
-            description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
-            size=(1920, 1042),
-        )
-        branch_config.crop(756, 362, 1144, 600)
-        tool.sleep(.5)
 
         tool.sleep(.1)
         tool.press("t")
@@ -79,6 +70,15 @@ def main():
         tool.press("t")
         tool.sleep(.1)
 
+        tool.sleep(.5)
+        # 3. take the picture (this shot has no red boxes)
+        branch_config = capture(
+            tool,
+            description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
+            size=(1920, 1042),
+        )
+        branch_config.crop(756, 362, 1144, 600)
+        tool.sleep(.5)
 
         tool.sleep(.5)
         tool.click(1076, 556)
