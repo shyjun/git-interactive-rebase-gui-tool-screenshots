@@ -76,7 +76,7 @@ def main():
             size=(1920, 1042),
         )
         img.draw_box(BOXES)
-        img.save("split-each-to-separate.png")
+        img.save("split-all-to-separate.png")
 
         tool.sleep(.5)
         tool.press("Escape")
