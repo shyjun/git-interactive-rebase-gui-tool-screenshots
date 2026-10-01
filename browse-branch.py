@@ -116,7 +116,12 @@ def main():
         final.add(0, (y2/2)-50, branch_config)
         final.add(x,0, img)
 
+        final.add_text(56, 303, " branch details ", 20, border=1, fill="red")
+        final.add_text(646, 5, " browse branch window ", 20, border=1, fill="red")
+
         final.save("browse-branch.png")
+
+
 
         tool.sleep(.5)
         tool.press("Escape")
