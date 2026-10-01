@@ -123,7 +123,7 @@ def main():
 
         configure_menu.add_text(462, 532, " copy menu ", 20, border=1, fill="red")
 
-        configure_menu.save("configure-menu.png")
+        configure_menu.save("main-menus.png")
 
         tool.sleep(1)
 
