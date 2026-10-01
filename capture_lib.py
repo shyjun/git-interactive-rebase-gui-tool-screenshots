@@ -121,7 +121,8 @@ class Repo:
         )
 
     def create_test_branch(self):
-        _sh_ok(["git", "-C", CLONE_DIR, "branch", "test", "HEAD~5"], "create test branch")
+        """Create/reset the local 'test' branch at HEAD~5 (safe to re-run)."""
+        self.run("branch", "-f", "test", "HEAD~5")
 
 
 repo = Repo()

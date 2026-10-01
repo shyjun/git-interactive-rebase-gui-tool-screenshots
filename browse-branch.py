@@ -8,6 +8,10 @@ BOXES = [
     {"rect": (349, 187, 669, 332)},
     ]
 
+BOXES1 = [
+    {"rect": (893, 2, 1078, 21)},
+    ]
+
 def main():
     # 1. put the reference clone back to the pinned commit
     repo.reset_to_base()
@@ -103,6 +107,8 @@ def main():
 
         final.add_text(56, 303, " branch details ", 20, border=1, fill="red")
         final.add_text(646, 5, " browse branch window ", 20, border=1, fill="red")
+
+        final.draw_box(BOXES1)
 
         final.save("browse-branch.png")
 
