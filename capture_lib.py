@@ -577,7 +577,7 @@ class Image:
         self.add((W - w) // 2, H - h - int(margin), Image(tick))
         tick.unlink()
 
-    def save(self, name, watermark=False):
+    def save(self, name, watermark=True):
         """Write .work/out/<name>.png and <name>.webp (quality 90).
 
         watermark=True: stamp a small check mark at bottom-center first,
