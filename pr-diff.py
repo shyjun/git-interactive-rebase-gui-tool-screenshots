@@ -5,12 +5,9 @@ Run it through main.py; it prepares the clone, settings and publishing.
 from capture_lib import Tool, capture, repo, image_new, _sh_ok
 
 BOXES = [
-    {"rect": (349, 187, 669, 332)},
+    {"rect": (528, 189, 777, 234)},
     ]
 
-BOXES1 = [
-    {"rect": (893, 2, 1078, 21)},
-    ]
 
 def main():
     # 1. put the reference clone back to the pinned commit
@@ -19,12 +16,17 @@ def main():
 
     # 2. open the tool: HEAD~13 shows the 13 newest commits (the list excludes
     #    the base commit itself, so the arg must be one further back)
-    tool = Tool(args=["HEAD~13"], log_name="mark-commits.log")
+    tool = Tool(args=[], log_name="mark-commits.log")
     # everything below runs inside the finally - no matter which step fails,
     # the tool gets closed and cannot poison the next run
     try:
         tool.wait_for_window()
         tool.maximize()
+
+        #tool.sleep(5)
+
+        tool.sleep(1)
+        tool.click(149, 269)
 
         tool.sleep(1)
         tool.click(1288, 831)
@@ -50,14 +52,14 @@ def main():
 
         img.save("pr-diff.png")
 
+        # close the PR Preview dialog via its Close button - it swallows the
+        # Escape/ctrl+q keys close() relies on, leaving the tool unkillable
+        tool.sleep(.5)
+        tool.click(949, 799)
+        tool.sleep(.5)
 
 
-        tool.sleep(.5)
-        tool.press("Escape")
-        tool.sleep(.5)
-        tool.press("Escape")
-        tool.sleep(.5)
-        tool.press("Escape")
+
     finally:
         tool.sleep(.5)
         # 4. close the tool - even when a step above failed

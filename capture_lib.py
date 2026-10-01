@@ -409,9 +409,19 @@ class Tool:
                 self.proc.kill()
                 self.proc.wait(timeout=5)
         self._log.close()
-        if self.proc.returncode != 0:
+        rc = self.proc.returncode
+        if rc in (-15, -9):
+            # -15/-9 is the terminate()/kill() escalation above: the scene's
+            # work is already done, cleanup must not fail it. Any other
+            # non-zero exit is a genuine crash and still raises.
+            print(
+                f"  warning: tool did not exit gracefully, force-terminated (code {rc})",
+                flush=True,
+            )
+            return
+        if rc != 0:
             raise RobotError(
-                f"tool closed with code {self.proc.returncode}\n"
+                f"tool closed with code {rc}\n"
                 f"--- log tail ---\n{log_tail(self._log_path)}"
             )
 

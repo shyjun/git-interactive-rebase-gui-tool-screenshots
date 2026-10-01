@@ -74,10 +74,9 @@ SCENES += [("viewer-mode.py", ["viewer-mode.png"])]
 SCENES += [("head-commits.py", ["head-commits.png"])]
 SCENES += [("browse-branch.py", ["browse-branch.png"])]
 SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
+SCENES += [("main-menus.py", ["main-menus.png"])]
 '''
-
 SCENES += [("pr-diff.py", ["pr-diff.png"])]
-
 
 # SCENES += [("test.py", ["test.png"])]
 
