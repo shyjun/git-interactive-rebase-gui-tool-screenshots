@@ -73,10 +73,10 @@ SCENES += [("refine-changes-in-file.py", ["refine-changes-in-file-1.png", "refin
 SCENES += [("viewer-mode.py", ["viewer-mode.png"])]
 SCENES += [("head-commits.py", ["head-commits.png"])]
 SCENES += [("browse-branch.py", ["browse-branch.png"])]
+SCENES += [("main-menus.py", ["main-menus.png"])]
+'''
 SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
 SCENES += [("pr-diff.py", ["pr-diff.png"])]
-'''
-SCENES += [("main-menus.py", ["main-menus.png"])]
 
 # SCENES += [("test.py", ["test.png"])]
 
