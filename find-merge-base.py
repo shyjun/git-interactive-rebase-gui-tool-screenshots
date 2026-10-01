@@ -48,7 +48,6 @@ def main():
             size=(1920, 1042),
         )
         branch_config.crop(756, 350, 1143, 613)
-        branch_config.save("1.png")
         tool.sleep(.5)
 
         tool.sleep(.5)
@@ -63,7 +62,6 @@ def main():
         )
         tool.sleep(.5)
         img.crop(705, 375, 1196, 587)
-        img.save("2.png")
 
 
         final = image_new(947, 290)
