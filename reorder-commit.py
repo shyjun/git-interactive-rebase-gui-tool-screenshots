@@ -34,7 +34,7 @@ def main():
             size=(1920, 1042),
         )
         img.draw_box(BOXES)
-        img.save("reorder-commit.png")
+        img.save("reorder-commit.png", watermark=True)
 
     finally:
         # 4. close the tool - even when a step above failed

@@ -561,8 +561,30 @@ class Image:
             )
         return self
 
-    def save(self, name):
-        """Write .work/out/<name>.png and <name>.webp (quality 90)."""
+    def _stamp_tick(self, size=24, margin=10):
+        """Composite a small check mark at bottom-center (white glyph with a
+        thin dark outline, so it shows on light and dark backgrounds alike)."""
+        tick = self._tmp()
+        _sh_ok(
+            ["convert", "-background", "none",
+             "-fill", "white", "-stroke", "black", "-strokewidth", "1",
+             "-font", "DejaVu-Sans", "-pointsize", str(int(size)),
+             "label:✓", str(tick)],
+            "watermark",
+        )
+        w, h = (int(v) for v in _dims(tick).split("x"))
+        W, H = (int(v) for v in _dims(self.path).split("x"))
+        self.add((W - w) // 2, H - h - int(margin), Image(tick))
+        tick.unlink()
+
+    def save(self, name, watermark=False):
+        """Write .work/out/<name>.png and <name>.webp (quality 90).
+
+        watermark=True: stamp a small check mark at bottom-center first,
+        so both the .png and the .webp carry it.
+        """
+        if watermark:
+            self._stamp_tick()
         base = name[:-4] if name.endswith(".png") else name[:-5] if name.endswith(".webp") else name
         png = OUT_DIR / f"{base}.png"
         OUT_DIR.mkdir(parents=True, exist_ok=True)
