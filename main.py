@@ -60,7 +60,6 @@ SCENES = [
     #("blame-a-file.py", ["blame-a-file.png"]),
     #("browse-tags.py", ["browse-tags.png"]),
     #("rebase-options.py", ["rebase-options.png"]),
-    #("rescan-repository.py", ["rescan-repository.png"]),
     #("add-untracked-files.py", ["add-untracked-files.png"]),
     #("commit-viewer-and-file-operations-menu.py", ["commit-viewer-and-file-operations-menu.png"]),
     #("main-interface.py", ["main-interface.png"]),
@@ -68,8 +67,9 @@ SCENES = [
     #("split-each-to-separate.py", ["split-each-to-separate.png"]),
     #("split-all-to-separate.py", ["split-all-to-separate.png"]),
     #("drag-reorder.py", ["drag-reorder.png"]),
+    #("split-move-single-file-1.py", ["split-move-single-file-1.png", "split-move-single-file-2.png"]),
 
-    ("split-move-single-file-1.py", ["split-move-single-file-1.png", "split-move-single-file-2.png"]),
+    ("rescan-repository.py", ["rescan-repository.png", "commit-selectively.png"]),
 
     #("test.py", ["test.png"]),
 ]
