@@ -89,6 +89,7 @@ def main():
         img.save("git-add-p-hunks.png")
 
 
+
         tool.sleep(1)
         tool.press("Escape")
 

@@ -38,41 +38,43 @@ REF_COMMIT = "f893b2a853e1559d51291a3731d6cd6df79f1a51"
 USER_CONFIG = Path.home() / ".config"
 
 # One line per screenshot: (script, [images the script must produce]).
-SCENES = [
-    #("head-commits.py", ["head-commits.png"]),
-    #("rephrase-and-drop-commit.py", ["rephrase-and-drop-commit.png"]),
-    #("mark-commits.py", ["mark-commits.png"]),
-    #("tag-commit.py", ["tag-commit.png"]),
-    #("external-tools-dialog.py", ["external-tools-dialog.png"]),
-    #("font-selection-dialog.py", ["font-selection-dialog.png"]),
-    #("search-filter.py", ["search-filter.png"]),
-    #("diff-search.py", ["diff-search.png"]),
-    #("squash-context-menu.py", ["squash-context-menu.png"]),
-    #("squash-dialogue.py", ["squash-dialogue.png"]),
-    #("split-context-menu.py", ["split-context-menu.png"]),
-    #("reset-options.py", ["reset-options.png"]),
-    #("browse-file-log.py", ["browse-file-log.png"]),
-    #("browse-reflog.py", ["browse-reflog.png"]),
-    #("browse-stash.py", ["browse-stash.png"]),
-    #("consolidated-diff.py", ["consolidated-diff.png"]),
-    #("viewer-mode.py", ["viewer-mode.png"]),
-    #("dark-theme.py", ["dark-theme.png"]),
-    #("blame-a-file.py", ["blame-a-file.png"]),
-    #("browse-tags.py", ["browse-tags.png"]),
-    #("rebase-options.py", ["rebase-options.png"]),
-    #("add-untracked-files.py", ["add-untracked-files.png"]),
-    #("commit-viewer-and-file-operations-menu.py", ["commit-viewer-and-file-operations-menu.png"]),
-    #("main-interface.py", ["main-interface.png"]),
-    #("plain-file-tree-diff.py", ["plain-file-tree-diff.png"]),
-    #("split-each-to-separate.py", ["split-each-to-separate.png"]),
-    #("split-all-to-separate.py", ["split-all-to-separate.png"]),
-    #("drag-reorder.py", ["drag-reorder.png"]),
-    #("split-move-single-file-1.py", ["split-move-single-file-1.png", "split-move-single-file-2.png"]),
 
-    ("rescan-repository.py", ["rescan-repository.png", "commit-selectively.png"]),
+SCENES = []
+'''
+SCENES += [("head-commits.py", ["head-commits.png"])]
+SCENES += [("rephrase-and-drop-commit.py", ["rephrase-and-drop-commit.png"])]
+SCENES += [("mark-commits.py", ["mark-commits.png"])]
+SCENES += [("tag-commit.py", ["tag-commit.png"])]
+SCENES += [("external-tools-dialog.py", ["external-tools-dialog.png"])]
+SCENES += [("font-selection-dialog.py", ["font-selection-dialog.png"])]
+SCENES += [("search-filter.py", ["search-filter.png"])]
+SCENES += [("diff-search.py", ["diff-search.png"])]
+SCENES += [("squash-context-menu.py", ["squash-context-menu.png"])]
+SCENES += [("squash-dialogue.py", ["squash-dialogue.png"])]
+SCENES += [("split-context-menu.py", ["split-context-menu.png"])]
+SCENES += [("reset-options.py", ["reset-options.png"])]
+SCENES += [("browse-file-log.py", ["browse-file-log.png"])]
+SCENES += [("browse-reflog.py", ["browse-reflog.png"])]
+SCENES += [("browse-stash.py", ["browse-stash.png"])]
+SCENES += [("consolidated-diff.py", ["consolidated-diff.png"])]
+SCENES += [("viewer-mode.py", ["viewer-mode.png"])]
+SCENES += [("dark-theme.py", ["dark-theme.png"])]
+SCENES += [("blame-a-file.py", ["blame-a-file.png"])]
+SCENES += [("browse-tags.py", ["browse-tags.png"])]
+SCENES += [("rebase-options.py", ["rebase-options.png"])]
+SCENES += [("add-untracked-files.py", ["add-untracked-files.png"])]
+SCENES += [("commit-viewer-and-file-operations-menu.py", ["commit-viewer-and-file-operations-menu.png"])]
+SCENES += [("main-interface.py", ["main-interface.png"])]
+SCENES += [("plain-file-tree-diff.py", ["plain-file-tree-diff.png"])]
+SCENES += [("split-each-to-separate.py", ["split-each-to-separate.png"])]
+SCENES += [("split-all-to-separate.py", ["split-all-to-separate.png"])]
+SCENES += [("drag-reorder.py", ["drag-reorder.png"])]
+SCENES += [("split-move-single-file-1.py", ["split-move-single-file-1.png", "split-move-single-file-2.png"])]
+SCENES += [("rescan-repository.py", ["rescan-repository.png", "commit-selectively.png"])]
+'''
+SCENES += [("refine-changes-in-file.py", ["refine-changes-in-file-1.png", "refine-changes-in-file-2.png"])]
+# SCENES += [("test.py", ["test.png"])]
 
-    #("test.py", ["test.png"]),
-]
 
 # ==========================================================
 
