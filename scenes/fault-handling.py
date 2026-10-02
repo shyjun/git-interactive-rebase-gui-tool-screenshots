@@ -103,9 +103,9 @@ def main():
         crash.crop(598, 239, 1302, 732)
         crash.save("previous-run.png")
 
-        final = image_new(2500, 1600)
-        final.add(3, 17, exception)
-        final.add(570, 20, crash)
+        final = image_new(1519, 621)
+        final.add(3, 20, exception)
+        final.add(797, 20, crash)
 
         final.save("fault-handling.png")
 
