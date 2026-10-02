@@ -12,4 +12,4 @@ git reset --hard origin/master
 git pull
 
 cd "$HERE"
-exec python3 main.py
+exec python3 scenes/main.py
