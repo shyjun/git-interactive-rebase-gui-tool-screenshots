@@ -106,10 +106,10 @@ def main():
         #staged.save("2.png")
 
         final = image_new(533, 379)
-        final.add(10, 20, unstaged)
+        final.add(10, 30, unstaged)
         final.add_text(38, 191, " unstaged changes warning ", 20, border=1, fill="red")
-        final.add(10, 200, staged)
-        final.add_text(38, 191, " staged changes warning ", 20, border=1, fill="red")
+        final.add(10, 210, staged)
+        final.add_text(38, 5, " staged changes warning ", 20, border=1, fill="red")
 
         final.save("staged-unstaged-changes-warning.png")
 
