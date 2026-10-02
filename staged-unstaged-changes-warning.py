@@ -105,9 +105,12 @@ def main():
         staged.crop(697, 401, 1203, 560)
         #staged.save("2.png")
 
-        final = image_new(710, 800)
-        final.add(10, 10, unstaged)
-        final.add(10, 430, staged)
+        final = image_new(533, 379)
+        final.add(10, 20, unstaged)
+        final.add_text(38, 191, " unstaged changes warning ", 20, border=1, fill="red")
+        final.add(10, 200, staged)
+        final.add_text(38, 191, " staged changes warning ", 20, border=1, fill="red")
+
         final.save("staged-unstaged-changes-warning.png")
 
 
