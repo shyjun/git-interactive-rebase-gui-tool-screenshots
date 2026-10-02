@@ -128,6 +128,22 @@ class Repo:
 repo = Repo()
 
 
+def _sweep_markers():
+    """Drop unclean-exit markers left in MARKER_DIR.
+
+    A force-killed tool cannot remove its own marker, and the next launch
+    would pop the tool's "Previous Run" dialog over the scene. Clearing on
+    every Tool() start and every close() keeps that dialog from ever firing.
+    """
+    if not MARKER_DIR.is_dir():
+        return
+    for p in MARKER_DIR.glob("git-interactive-rebase-gui-*.json"):
+        try:
+            p.unlink()
+        except OSError:
+            pass
+
+
 class Tool:
     """One running instance of the GUI."""
 
@@ -140,6 +156,7 @@ class Tool:
         env["XDG_CONFIG_HOME"] = str(CONFIG_DIR)  # private copy of the tool's settings
         env["GIT_REBASE_GUI_MARKER_DIR"] = str(MARKER_DIR)  # private unclean-exit markers
         env.pop("QT_QPA_PLATFORM", None)  # never allow an offscreen platform
+        _sweep_markers()  # stale markers from a killed run would pop "Previous Run"
         self.proc = subprocess.Popen(
             [sys.executable, str(TOOL_ROOT / "git_interactive_rebase.py"), *[str(a) for a in args]],
             cwd=str(CLONE_DIR),
@@ -387,6 +404,7 @@ class Tool:
                     p.unlink()
                 except OSError:
                     pass
+            _sweep_markers()  # a force-killed tool never removes its own marker
 
     def _quit(self):
         if self.window_id:
