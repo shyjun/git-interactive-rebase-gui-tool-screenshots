@@ -49,15 +49,34 @@ def main():
         tool.wait_for_window()
         tool.maximize()
 
-        tool.sleep(4)
+        tool.sleep(.5)
+        tool.click(1426, 1029)
+
+        tool.sleep(.1)
+        tool.press("Up")
+
+        tool.sleep(.1)
+        tool.press("Up")
+
+        tool.sleep(.1)
+        tool.press("Up")
+
+        tool.sleep(.1)
+        tool.press("Up")
+
+        tool.sleep(.2)
+        tool.press("Return")              # activate
+
+        tool.sleep(8)
         img = capture(
             tool,
             description="startup update check: Update(<sha>) available in the status bar",
             size=(1920, 1042),
         )
-        if BOXES:
-            img.draw_box(BOXES)
+
+        img.draw_box(BOXES)
         img.save("update-available.png")
+        tool.sleep(.5)
 
     finally:
         tool.sleep(.5)
