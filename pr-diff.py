@@ -55,7 +55,7 @@ def main():
         # close the PR Preview dialog via its Close button - it swallows the
         # Escape/ctrl+q keys close() relies on, leaving the tool unkillable
         tool.sleep(.5)
-        tool.click(949, 799)
+        tool.click(949, 779)
         tool.sleep(.5)
 
 
