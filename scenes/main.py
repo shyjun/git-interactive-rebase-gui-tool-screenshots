@@ -74,9 +74,9 @@ SCENES += [("main-menus.py", ["main-menus.png"])]
 SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
 SCENES += [("pr-diff.py", ["pr-diff.png"])]
 SCENES += [("staged-unstaged-changes-warning.py", ["staged-unstaged-changes-warning.png"])]
-SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
-'''
 SCENES += [("fault-handling.py", ["fault-handling.png"])]
+'''
+SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 # SCENES += [("test.py", ["test.png"])]
 
 # ==========================================================

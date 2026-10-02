@@ -76,7 +76,7 @@ def main():
         )
 
         img.draw_box(BOXES)
-        img.save("update-available.png")
+        img.save("update-available-dialog.png")
         tool.sleep(.5)
 
         tool.sleep(.5)
