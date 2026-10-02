@@ -22,8 +22,8 @@ from pathlib import Path
 import time
 
 # ======================== settings ========================
-# The tool repo the robot launches (this repo only holds images and the robot).
-TOOL_ROOT = Path("/home/snarangaprath/WORK/git-interactive-rebase-gui-tool")
+# The dev tool repo: preflight checks it, capture.sh copies it into .work/.
+TOOL_SRC = Path("/home/snarangaprath/WORK/git-interactive-rebase-gui-tool")
 
 # The repo that provides the commit history for the screenshots.
 VIM_REPO = "/home/snarangaprath/WORK/vim"
@@ -76,6 +76,7 @@ SCENES += [("browse-branch.py", ["browse-branch.png"])]
 SCENES += [("main-menus.py", ["main-menus.png"])]
 SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
 SCENES += [("pr-diff.py", ["pr-diff.png"])]
+SCENES += [("update-available.py", ["update-available.png"])]
 SCENES += [("staged-unstaged-changes-warning.py", ["staged-unstaged-changes-warning.png"])]
 #'''
 
@@ -88,6 +89,8 @@ HERE = Path(__file__).resolve().parent
 SCREENSHOTS_REPO = HERE  # the robot lives in the screenshots repo itself
 SHOTS_DIR = SCREENSHOTS_REPO / "screenshots"  # where the .webp files are committed
 WORK_DIR = HERE / ".work"
+# The copy capture.sh refreshes before every run; the tool always launches from here.
+TOOL_ROOT = WORK_DIR / "git-interactive-rebase-gui-tool"
 CONFIG_DIR = WORK_DIR / "config"
 MARKER_DIR = WORK_DIR / "markers"
 LOG_DIR = WORK_DIR / "logs"
@@ -203,8 +206,10 @@ def step1_preflight():
     say("Step 1/5 preflight: screenshots repo is clean")
     if not os.environ.get("DISPLAY"):
         fail("DISPLAY is not set - run this on the laptop with the desktop session")
+    if not (TOOL_SRC / "git_interactive_rebase.py").exists():
+        fail(f"tool entry point not found at {TOOL_SRC / 'git_interactive_rebase.py'}")
     if not (TOOL_ROOT / "git_interactive_rebase.py").exists():
-        fail(f"tool entry point not found at {TOOL_ROOT / 'git_interactive_rebase.py'}")
+        fail(f"tool copy not found at {TOOL_ROOT} - run capture.sh first")
     if not (SCREENSHOTS_REPO / ".git").exists():
         fail(f"screenshots repo not found at {SCREENSHOTS_REPO}")
     res = run(["git", "status", "--porcelain"], cwd=SCREENSHOTS_REPO)
