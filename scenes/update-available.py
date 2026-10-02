@@ -14,6 +14,7 @@ from main import CONFIG_DIR, TOOL_ROOT
 
 BOXES = [
     {"rect": (1152, 1016, 1368, 1037)},
+    {"rect": (760, 575, 1195, 621)},
     ]
 
 CONFIG_FILE = CONFIG_DIR / "git-interactive-rebase-gui-tool" / "config.conf"
