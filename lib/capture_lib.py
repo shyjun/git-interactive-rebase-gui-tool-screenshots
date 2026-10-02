@@ -111,9 +111,21 @@ class Repo:
         The clone can start detached (your vim repo's HEAD is), which would
         show branch=DETACHED and hide the [master] badge - so always
         force-attach master at the pinned commit first.
+
+        Also deletes every other local branch: a leftover 'test' branch makes
+        the tool's branch-base detection pick it as upstream and reload the
+        history from its tip (merge-base HEAD~5 -> "Showing: 5"). Scenes that
+        need 'test' recreate it after this call.
         """
         _sh_ok(["git", "-C", CLONE_DIR, "checkout", "-f", "-B", "master", REF_COMMIT], "checkout master")
         _sh_ok(["git", "-C", CLONE_DIR, "clean", "-fdx"], "git clean")
+        res = _sh_ok(
+            ["git", "-C", CLONE_DIR, "for-each-ref", "--format=%(refname:short)", "refs/heads/"],
+            "list local branches",
+        )
+        for branch in res.stdout.split():
+            if branch != "master":
+                _sh_ok(["git", "-C", CLONE_DIR, "branch", "-D", branch], f"delete branch {branch}")
         # Keeps the [origin/master] badge on the HEAD row, like in the docs shot.
         _sh_ok(
             ["git", "-C", CLONE_DIR, "update-ref", "refs/remotes/origin/master", REF_COMMIT],
@@ -147,7 +159,7 @@ def _sweep_markers():
 class Tool:
     """One running instance of the GUI."""
 
-    def __init__(self, args, log_name):
+    def __init__(self, args, log_name, sweep_markers=True):
         LOG_DIR.mkdir(parents=True, exist_ok=True)
         OUT_DIR.mkdir(parents=True, exist_ok=True)
         self._log_path = LOG_DIR / log_name
@@ -156,7 +168,8 @@ class Tool:
         env["XDG_CONFIG_HOME"] = str(CONFIG_DIR)  # private copy of the tool's settings
         env["GIT_REBASE_GUI_MARKER_DIR"] = str(MARKER_DIR)  # private unclean-exit markers
         env.pop("QT_QPA_PLATFORM", None)  # never allow an offscreen platform
-        _sweep_markers()  # stale markers from a killed run would pop "Previous Run"
+        if sweep_markers:
+            _sweep_markers()  # stale markers from a killed run would pop "Previous Run"
         self.proc = subprocess.Popen(
             [sys.executable, str(TOOL_ROOT / "git_interactive_rebase.py"), *[str(a) for a in args]],
             cwd=str(CLONE_DIR),
@@ -386,7 +399,7 @@ class Tool:
             )
             time.sleep(0.3)
 
-    def close(self):
+    def close(self, sweep_markers=True):
         """Quit the tool with Ctrl+Q (its own shortcut) and wait for a clean exit.
 
         A modal dialog can swallow Ctrl+Q, so on the first miss the dialog is
@@ -395,6 +408,9 @@ class Tool:
 
         Always also drops the underscore working files (_wip/_blank/copies):
         images a scene never saved are scratch, not captures.
+
+        sweep_markers: pass False when a scene must keep this run's
+        unclean-exit marker behind for a later relaunch to find.
         """
         try:
             self._quit()
@@ -404,9 +420,16 @@ class Tool:
                     p.unlink()
                 except OSError:
                     pass
-            _sweep_markers()  # a force-killed tool never removes its own marker
+            if sweep_markers:
+                _sweep_markers()  # a force-killed tool never removes its own marker
 
     def _quit(self):
+        if self.proc.poll() is not None:
+            # Already reaped (the scene SIGTERMed it): there is no window
+            # left to poke - just close the log and judge the exit code.
+            self._log.close()
+            self._check_rc()
+            return
         if self.window_id:
             self.activate()
             _sh(["xdotool", "key", "--clearmodifiers", "ctrl+q"])
@@ -427,11 +450,14 @@ class Tool:
                 self.proc.kill()
                 self.proc.wait(timeout=5)
         self._log.close()
+        self._check_rc()
+
+    def _check_rc(self):
         rc = self.proc.returncode
         if rc in (-15, -9):
-            # -15/-9 is the terminate()/kill() escalation above: the scene's
-            # work is already done, cleanup must not fail it. Any other
-            # non-zero exit is a genuine crash and still raises.
+            # -15/-9 is the terminate()/kill() escalation above (or the scene's
+            # own kill): the scene's work is already done, cleanup must not
+            # fail it. Any other non-zero exit is a genuine crash and raises.
             print(
                 f"  warning: tool did not exit gracefully, force-terminated (code {rc})",
                 flush=True,
@@ -680,6 +706,26 @@ def capture(tool, description="", size=None):
     _sh_ok(
         ["import", "-window", "root", "-crop", f"{frame_w}x{frame_h}+{frame_x}+{frame_y}",
          "+repage", str(wip)],
+        "screenshot",
+    )
+    dims = _dims(wip)
+    if size and dims != f"{size[0]}x{size[1]}":
+        raise RobotError(f"capture came out {dims}, expected {size[0]}x{size[1]}")
+    print(f"  captured ({dims})" + (f" - {description}" if description else ""), flush=True)
+    return Image(wip)
+
+
+def capture_screen(x, y, w, h, description="", size=None):
+    """Screenshot an absolute screen rectangle into a working image.
+
+    For windows that exist outside the tool's frame (e.g. a dialog shown
+    before the main window appears, so there is no Tool to capture yet).
+    Returns an Image, same contract as capture().
+    """
+    OUT_DIR.mkdir(parents=True, exist_ok=True)
+    wip = OUT_DIR / f"_wip-{next(_wip_seq)}.png"
+    _sh_ok(
+        ["import", "-window", "root", "-crop", f"{w}x{h}+{x}+{y}", "+repage", str(wip)],
         "screenshot",
     )
     dims = _dims(wip)
