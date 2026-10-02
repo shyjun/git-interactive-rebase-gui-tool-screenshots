@@ -105,10 +105,12 @@ def main():
 
         final = image_new(1519, 621)
         final.add(3, 20, exception)
+        final.add_text(70, 2, " exception report ", 20, border=1, fill="red")
+
         final.add(797, 20, crash)
+        final.add_text(860, 2, " previous run crash report ", 20, border=1, fill="red")
 
         final.save("fault-handling.png")
-
 
         tool2.press("Escape")  # "Noted. Continue" - the tool ignores the result
         tool2.sleep(1)
