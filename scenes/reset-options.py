@@ -2,8 +2,12 @@
 
 Run it through main.py; it prepares the clone, settings and publishing.
 """
-from capture_lib import Tool, capture, repo
+import sys
+from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
+
+from capture_lib import Tool, capture, repo
 BOXES = [
     {"rect": (221, 246, 605, 322)},
     {"rect": (2, 860, 1916, 934)},

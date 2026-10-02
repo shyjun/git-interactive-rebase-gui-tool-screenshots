@@ -4,6 +4,11 @@ Requires the tool copy in .work/ (run capture.sh, or its copy steps). The
 script amends the copy's HEAD so the startup check sees a local sha that
 differs from the remote, then restores the copy and the auto-check setting.
 """
+import sys
+from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
+
 from capture_lib import Tool, capture, _sh_ok, repo
 from main import CONFIG_DIR, TOOL_ROOT
 

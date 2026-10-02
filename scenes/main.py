@@ -34,9 +34,6 @@ CLONE_DIR = Path("/tmp/screenshot_robot_vim")
 # The exact commit every screenshot is taken at (the HEAD shown in the docs shots).
 REF_COMMIT = "f893b2a853e1559d51291a3731d6cd6df79f1a51"
 
-# Your live tool settings are copied from here (font, theme, column widths ...).
-USER_CONFIG = Path.home() / ".config"
-
 # One line per screenshot: (script, [images the script must produce]).
 
 SCENES = []
@@ -79,16 +76,14 @@ SCENES += [("pr-diff.py", ["pr-diff.png"])]
 SCENES += [("update-available.py", ["update-available.png"])]
 SCENES += [("staged-unstaged-changes-warning.py", ["staged-unstaged-changes-warning.png"])]
 #'''
-
-
 # SCENES += [("test.py", ["test.png"])]
 
 # ==========================================================
 
-HERE = Path(__file__).resolve().parent
-SCREENSHOTS_REPO = HERE  # the robot lives in the screenshots repo itself
+HERE = Path(__file__).resolve().parent        # scenes/
+SCREENSHOTS_REPO = HERE.parent                # the robot lives in the screenshots repo itself
 SHOTS_DIR = SCREENSHOTS_REPO / "screenshots"  # where the .webp files are committed
-WORK_DIR = HERE / ".work"
+WORK_DIR = SCREENSHOTS_REPO / ".work"
 # The copy capture.sh refreshes before every run; the tool always launches from here.
 TOOL_ROOT = WORK_DIR / "git-interactive-rebase-gui-tool"
 CONFIG_DIR = WORK_DIR / "config"
@@ -126,80 +121,28 @@ def run_live(args, cwd=None, check=True):
 
 
 def seed_settings():
-    """Copy your tool settings into .work/config, with capture-friendly tweaks:
+    """Install the committed capture settings (config/) into .work/config.
 
-    - the robot's window must not start maximized and must not restore your
+    The repo's config/ is the source of truth and is committed like everything
+    else; it bakes in the capture-friendly tweaks:
+
+    - the robot's window must not start maximized and must not restore a
       saved position (we place and size the window ourselves)
     - browse windows (file log, viewers) open maximized by default, so every
       scene shows them full-screen without per-scene geometry fiddling
     - the blame dialog opens maximized too (harvested from a real double-click
       title-bar maximize - restoreGeometry replays size AND maximized state)
+    - font_size=11 (zoom 110% - the zoom level all docs shots use), theme=light
     - the startup update check is disabled so no "Update available" label
       can appear in a screenshot
-    """
-    src = USER_CONFIG / "shyjun" / "GitInteractiveRebase.conf"
-    dst = CONFIG_DIR / "shyjun" / "GitInteractiveRebase.conf"
-    dst.parent.mkdir(parents=True, exist_ok=True)
-    # blame/geometry captured while the dialog was maximized (1920x1042 frame)
-    blame_maximized = (
-        r"@ByteArray(\x1\xd9\xd0\xcb\0\x3\0\0\0\0\0\0\0\0\0\0\0\0\a\x7f\0\0\x4\x11\0\0\x1\\"
-        r"\0\0\0\xc7\0\0\x6\xaf\0\0\x3\xcc\0\0\0\0\x2\0\0\0\a\x80\0\0\0\0\0\0\0\x1d\0\0"
-        r"\a\x7f\0\0\x4\x11)"
-    )
-    lines = src.read_text().splitlines() if src.exists() else []
-    out, section, seen_startup, seen_browse_max = [], "", False, False
-    for line in lines:
-        stripped = line.strip()
-        if stripped.startswith("[") and stripped.endswith("]"):
-            section = stripped
-            out.append(line)
-            continue
-        if section == "[General]" and stripped.startswith("font_size="):
-            line = "font_size=11"  # zoom 110% - the zoom level all docs shots use
-        if section == "[General]" and stripped.startswith("theme="):
-            line = "theme=light"  # docs shots are light; dark-theme.py switches in-session
-        if section == "[main]" and stripped.startswith("geometry"):
-            continue  # saved window position - not wanted, we size the window ourselves
-        if section == "[main]" and stripped.startswith("isMaximized"):
-            line = "isMaximized=false"
-        if section == "[blame]" and stripped.startswith("geometry="):
-            line = "geometry=" + blame_maximized  # dialog restores maximized
-        if section == "[browse]" and stripped.startswith("isMaximized"):
-            line = "isMaximized=true"  # browse windows restore maximized (closeEvent re-saves true)
-            seen_browse_max = True
-        if section == "[startup]" and stripped.startswith("auto_check_updates"):
-            line = "auto_check_updates=false"
-            seen_startup = True
-        out.append(line)
-    if not seen_startup:
-        out += ["", "[startup]", "auto_check_updates=false"]
-    if not seen_browse_max:
-        out += ["", "[browse]", "isMaximized=true"]
-    dst.write_text("\n".join(out) + "\n")
 
-    theme_dir = USER_CONFIG / "git-interactive-rebase-gui-tool"
-    if theme_dir.exists():
-        shutil.copytree(theme_dir, CONFIG_DIR / theme_dir.name, dirs_exist_ok=True)
-    # The startup update check reads this file (not shyjun's). A visible
-    # "Update(...) available" label would contaminate the screenshots and
-    # depends on the network, so force the check off here too.
-    upd = CONFIG_DIR / "git-interactive-rebase-gui-tool" / "config.conf"
-    upd.parent.mkdir(parents=True, exist_ok=True)
-    lines = upd.read_text().splitlines() if upd.exists() else []
-    out, section, seen_upd = [], "", False
-    for line in lines:
-        stripped = line.strip()
-        if stripped.startswith("[") and stripped.endswith("]"):
-            section = stripped
-            out.append(line)
-            continue
-        if section == "[startup]" and stripped.startswith("auto_check_updates"):
-            line = "auto_check_updates=false"
-            seen_upd = True
-        out.append(line)
-    if not seen_upd:
-        out += ["", "[startup]", "auto_check_updates=false"]
-    upd.write_text("\n".join(out) + "\n")
+    The tool and the scenes write their runtime state (geometry, exit-time
+    settings, the update-available scene's auto_check flip) into .work/config,
+    so every run starts again from a pristine copy of config/.
+    """
+    if CONFIG_DIR.exists():
+        shutil.rmtree(CONFIG_DIR)
+    shutil.copytree(SCREENSHOTS_REPO / "config", CONFIG_DIR)
 
 
 def step1_preflight():

@@ -2,8 +2,12 @@
 
 Run it through main.py; it prepares the clone, settings and publishing.
 """
-from capture_lib import Tool, capture, repo
+import sys
+from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
+
+from capture_lib import Tool, capture, repo
 BOXES = [
     {"rect": (161, 160, 545, 578)},  # main context menu
     {"rect": (646, 793, 951, 958)},  # multi select menu

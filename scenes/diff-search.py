@@ -3,8 +3,12 @@
 Right-click a row -> View Commit, then click the search bar's config
 options in the viewer. Run it through main.py.
 """
-from capture_lib import Tool, capture, repo
+import sys
+from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
+
+from capture_lib import Tool, capture, repo
 BOXES = [
     {"rect": (528, 360, 1212, 411)},
     {"rect": (1213, 363, 1320, 406)},

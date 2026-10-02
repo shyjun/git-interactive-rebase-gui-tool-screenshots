@@ -2,8 +2,12 @@
 
 Run it through main.py; it prepares the clone, settings and publishing.
 """
-from capture_lib import Tool, capture, repo
+import sys
+from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
+
+from capture_lib import Tool, capture, repo
 def main():
     # 1. put the reference clone back to the pinned commit
     repo.reset_to_base()

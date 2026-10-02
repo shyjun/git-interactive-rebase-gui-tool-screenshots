@@ -3,8 +3,12 @@
 Commit viewer with the file-operations menu open, red boxes around both
 plus white-plate labels. Run it through main.py.
 """
-from capture_lib import Tool, capture, repo
+import sys
+from pathlib import Path
 
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
+
+from capture_lib import Tool, capture, repo
 BOXES = [
     {"rect": (517, 153, 1383, 809)},
     {"rect": (962, 377, 1159, 409)},
