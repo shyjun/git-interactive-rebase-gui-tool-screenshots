@@ -76,8 +76,7 @@ SCENES += [("pr-diff.py", ["pr-diff.png"])]
 SCENES += [("staged-unstaged-changes-warning.py", ["staged-unstaged-changes-warning.png"])]
 SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 '''
-#SCENES += [("crash-dialog.py", ["crash-dialog.png"])]
-SCENES += [("previous-run.py", ["previous-run.png"])]
+SCENES += [("fault-handling.py", ["fault-handling.png"])]
 # SCENES += [("test.py", ["test.png"])]
 
 # ==========================================================
