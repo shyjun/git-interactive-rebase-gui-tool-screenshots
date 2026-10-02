@@ -78,7 +78,7 @@ def main():
             size=(1920, 1042),
         )
         exception.crop(567, 199, 1333, 773)
-        exception.save("exception-dialog.png")
+        exception.save("exception-dialog.png", watermark=False)
 
     finally:
         if tool1.proc.poll() is None:
@@ -101,7 +101,7 @@ def main():
             description="relaunch after a hard kill: Previous Run dialog",
         )
         crash.crop(598, 239, 1302, 732)
-        crash.save("previous-run.png")
+        crash.save("previous-run.png", watermark=False)
 
         final = image_new(1519, 621)
         final.add(3, 20, exception)
