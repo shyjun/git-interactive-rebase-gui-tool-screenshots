@@ -543,6 +543,18 @@ class Image:
         dup.write_bytes(self.path.read_bytes())
         return Image(dup)
 
+    def fill_rect(self, x1, y1, x2, y2, color="white"):
+        """Paint a solid rectangle over the region (inclusive corners).
+
+        Same coord space as crop/draw_box; any ImageMagick color works
+        ("white", "#f5f5f7", ...). Returns self (chainable)."""
+        _sh_ok(
+            ["convert", str(self.path), "-fill", color, "-stroke", "none",
+             "-draw", f"rectangle {x1},{y1} {x2},{y2}", str(self.path)],
+            "fill_rect",
+        )
+        return self
+
     def draw_box(self, boxes):
         """Draw BOXES-style red frames / plates / labels on the image.
 
