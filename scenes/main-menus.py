@@ -134,7 +134,7 @@ def main():
         configure_menu.add_text(462, 532, " copy menu ", 20, border=1, fill="red")
 
         configure_menu.fill_rect(1, 1042, 1363, 1079)
-        configure_menu.fill_rect(1772, 1044, 1918, 1079)
+        configure_menu.fill_rect(1776, 1044, 1918, 1079)
 
         configure_menu.save("main-menus.png")
 
