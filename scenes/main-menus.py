@@ -7,7 +7,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
 
-from capture_lib import Tool, capture, repo
+from capture_lib import Tool, capture, repo, capture_screen
 BOXES = [
     {"rect": (161, 160, 545, 578)},  # main context menu
     {"rect": (646, 793, 951, 958)},  # multi select menu
@@ -106,11 +106,17 @@ def main():
 
         tool.sleep(.2)
         # 3. take the picture (this shot has no red boxes)
-        configure_menu = capture(
-            tool,
-            description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
-            size=(1920, 1042),
+        #configure_menu = capture(
+        #    tool,
+        #    description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
+        #    size=(1920, 1042),
+        #)
+
+        configure_menu = capture_screen(
+            0, 0, 1920, 1080,          # whole screen, taskbar included
+            description="Origin group with git fetch/pull menu open",
         )
+
         configure_menu.add(161, 162, context_menu)
         configure_menu.add_text(259, 150-10-5, " main context menu ", 20, border=1, fill="red")
 
