@@ -70,15 +70,15 @@ SCENES += [("refine-changes-in-file.py", ["refine-changes-in-file-1.png", "refin
 SCENES += [("viewer-mode.py", ["viewer-mode.png"])]
 SCENES += [("head-commits.py", ["head-commits.png"])]
 SCENES += [("browse-branch.py", ["browse-branch.png"])]
-SCENES += [("main-menus.py", ["main-menus.png"])]
 SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
 SCENES += [("pr-diff.py", ["pr-diff.png"])]
 SCENES += [("staged-unstaged-changes-warning.py", ["staged-unstaged-changes-warning.png"])]
 SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 SCENES += [("fault-handling.py", ["fault-handling.png"])]
 SCENES += [("file-list-hover-toolbar.py", ["file-list-hover-toolbar.png"])]
-'''
 SCENES += [("origin-options.py", ["origin-options.png", "push-dialog.png"])]
+'''
+SCENES += [("main-menus.py", ["main-menus.png"])]
 
 # SCENES += [("test.py", ["test.png"])]
 
