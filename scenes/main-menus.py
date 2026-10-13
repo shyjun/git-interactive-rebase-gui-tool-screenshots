@@ -11,8 +11,8 @@ from capture_lib import Tool, capture, repo, capture_screen
 BOXES = [
     {"rect": (161, 160, 545, 578)},  # main context menu
     {"rect": (646, 793, 951, 958)},  # multi select menu
-    {"rect": (1364, 892, 1593, 1041)},  # configure menu
-    {"rect": (1587, 850, 1774, 1041)},  # configure submenu
+    {"rect": (1364, 892, 1593, 1076)},  # configure menu
+    {"rect": (1587, 850, 1774, 1076)},  # configure submenu
     {"rect": (1234, 479, 1451, 817)},  # repo menu
     {"rect": (176, 508, 467, 570)},  # copy menu
     ]
@@ -132,6 +132,9 @@ def main():
         configure_menu.draw_box(BOXES)
 
         configure_menu.add_text(462, 532, " copy menu ", 20, border=1, fill="red")
+
+        configure_menu.fill_rect(1, 1042, 1363, 1079)
+        configure_menu.fill_rect(1772, 1044, 1918, 1079)
 
         configure_menu.save("main-menus.png")
 
