@@ -11,9 +11,9 @@ import shutil
 from capture_lib import Tool, capture, repo
 
 BOXES = [
-    {"rect": (608, 235, 844, 277)},
-    {"rect": (966, 729, 1291, 793)},
-    {"rect": (600, 299, 1165, 465)},
+    {"rect": (525, 235, 765, 278)},
+    {"rect": (557, 734, 1372, 791)},
+    {"rect": (525, 301, 1026, 465)},
     ]
 
 BOXES1 = [
