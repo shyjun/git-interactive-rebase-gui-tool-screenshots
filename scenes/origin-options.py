@@ -10,11 +10,11 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
 from capture_lib import Tool, capture, repo, capture_screen
 
 BOXES = [
-    {"rect": (5, 936, 1904, 997)},
     {"rect": (13, 992, 136, 1077)},
     ]
 
 BOXES1 = [
+    {"rect": (5, 936, 1904, 997)},
     {"rect": (716, 333, 1186, 629)},
     ]
 
@@ -52,9 +52,6 @@ def main():
             description="Origin group with git fetch/pull menu open",
         )
 
-        img.fill_rect(127, 1043, 1919, 1079)
-        img.fill_rect(0, 1042, 17, 1070)
-        img.fill_rect(0, 1072, 158, 1079)
         img.draw_box(BOXES)
 
         img.save("origin-options.png")
