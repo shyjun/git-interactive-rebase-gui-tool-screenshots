@@ -57,7 +57,7 @@ def main():
         tool.press("Return")              # Add Untracked File(s)...
 
         tool.sleep(1)
-        tool.click(662, 254)
+        tool.click(582, 257)
 
         tool.sleep(1.5)
         # 3. take the picture (this shot has no red boxes)
