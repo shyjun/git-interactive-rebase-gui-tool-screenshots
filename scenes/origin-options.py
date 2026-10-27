@@ -10,13 +10,15 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
 from capture_lib import Tool, capture, repo, capture_screen
 
 BOXES = [
-    {"rect": (5, 946, 1904, 1007)},
+    {"rect": (3, 936, 1914, 1017)},
     {"rect": (716, 319, 1184, 642)},
+    {"rect": (12, 951, 644, 1001)},
     ]
 
 BOXES1 = [
-    {"rect": (5, 946, 1904, 1007)},
+    {"rect": (3, 936, 1914, 1017)},
     {"rect": (716, 333, 1186, 629)},
+    {"rect": (1274, 950, 1906, 1001)},
     ]
 
 def main():
