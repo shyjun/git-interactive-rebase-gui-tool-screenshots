@@ -48,7 +48,7 @@ def main():
 
         # menu open, window still maximized
         img = capture_screen(
-            0, 0, 1920, 1080,          # whole screen, taskbar included
+            0, 0, 1920, 1042,          # whole screen, taskbar included
             description="Origin group with git fetch/pull menu open",
         )
 
