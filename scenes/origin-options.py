@@ -10,7 +10,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
 from capture_lib import Tool, capture, repo, capture_screen
 
 BOXES = [
-    {"rect": (13, 992, 136, 1077)},
+    {"rect": (5, 946, 1904, 1007)},
+    {"rect": (716, 319, 1184, 642)},
     ]
 
 BOXES1 = [
@@ -41,10 +42,10 @@ def main():
         tool.sleep(.2)
         tool.press("Return")              # activate
 
-        tool.sleep(.2)
+        tool.sleep(.5)
         tool.click(532, 973)
 
-        tool.sleep(1)
+        tool.sleep(.5)
 
         # menu open, window still maximized
         img = capture_screen(
