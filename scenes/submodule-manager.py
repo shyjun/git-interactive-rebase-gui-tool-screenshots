@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
 from capture_lib import Tool, capture, repo
 
 BOXES = [
-    {"rect": (510, 282, 1410, 682)},
+    {"rect": (503, 283, 1397, 680)},
     ]
 
 SUBMODULES = [
