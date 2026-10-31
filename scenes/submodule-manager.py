@@ -24,8 +24,8 @@ SUBMODULES = [
     ("https://github.com/rxi/map.git", "lib/map"),
 ]
 
-# The one we advance to show "pointer changed" (2nd entry, lib/log)
-ADVANCE_PATH = SUBMODULES[1][1]
+# The ones we advance to show "pointer changed" (log, inih, vec)
+ADVANCE_PATHS = [SUBMODULES[1][1], SUBMODULES[3][1], SUBMODULES[4][1]]
 
 
 def main():
@@ -37,11 +37,12 @@ def main():
     repo.run("add", ".gitmodules")
     repo.run("commit", "-m", "add test submodules")
 
-    with open(repo.path / ADVANCE_PATH / "readme.txt", "a") as fh:
-        fh.write("modified\n")
-    sub_log = str(repo.path / ADVANCE_PATH)
-    repo.run("-C", sub_log, "add", "readme.txt")
-    repo.run("-C", sub_log, "commit", "-m", "advance pointer")
+    for sub_path in ADVANCE_PATHS:
+        with open(repo.path / sub_path / "readme.txt", "a") as fh:
+            fh.write("modified\n")
+        sub_log = str(repo.path / sub_path)
+        repo.run("-C", sub_log, "add", "readme.txt")
+        repo.run("-C", sub_log, "commit", "-m", "advance pointer")
 
     tool = Tool(args=["HEAD~13"], log_name="submodule-manager.log")
     try:
@@ -62,7 +63,7 @@ def main():
         tool.sleep(1.5)
         img = capture(
             tool,
-            description="Submodules dialog: 7 registered libs, lib/log pointer changed",
+            description="Submodules dialog: 7 libs, log/inih/vec pointer changed",
             size=(1920, 1042),
         )
         img.draw_box(BOXES)
