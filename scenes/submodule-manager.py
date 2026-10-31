@@ -53,7 +53,7 @@ def main():
             size=(1920, 1042),
         )
         img.draw_box(BOXES)
-        img.save("handle-submodules.png.png")
+        img.save("submodule-manager.png")
 
         tool.sleep(.5)
         tool.press("Escape")

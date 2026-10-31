@@ -83,7 +83,7 @@ SCENES += [("pr-diff.py", ["pr-diff.png"])]
 SCENES += [("add-untracked-files.py", ["add-untracked-files.png"])]
 '''
 
-#SCENES += [("handle-submodules.py", ["handle-submodules.png"])]
+SCENES += [("submodule-manager.py", ["submodule-manager.png"])]
 SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 
 # SCENES += [("test.py", ["test.png"])]
