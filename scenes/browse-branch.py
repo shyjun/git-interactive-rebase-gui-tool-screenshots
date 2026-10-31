@@ -61,7 +61,7 @@ def main():
         tool.press("Up")
 
         tool.sleep(.1)
-        tool.press("Return")              # activate
+        tool.press("Return")
 
 
         tool.sleep(.1)

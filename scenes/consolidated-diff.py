@@ -24,10 +24,10 @@ def main():
     # the tool gets closed and cannot poison the next run
     try:
         tool.wait_for_window()
-        tool.maximize()  # capture in maximized view (screen workarea)
-        tool.sleep(1)  # commit list, diff pane and status labels have settled
-        tool.click(370, 165, button=3)   # right-click the commit row
-        tool.sleep(.5)  # commit list, diff pane and status labels have settled
+        tool.maximize()
+        tool.sleep(1)
+        tool.click(370, 165, button=3)
+        tool.sleep(.5)
 
         tool.press("Up")
         tool.sleep(.1)
@@ -44,7 +44,7 @@ def main():
         tool.press("Up")
         tool.sleep(.1)
 
-        tool.press("Return")              # activate
+        tool.press("Return")
         tool.sleep(.5)
 
         # 3. take the picture (this shot has no red boxes)

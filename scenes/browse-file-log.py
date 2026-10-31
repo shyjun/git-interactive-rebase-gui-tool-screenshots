@@ -23,7 +23,7 @@ def main():
     # the tool gets closed and cannot poison the next run
     try:
         tool.wait_for_window()
-        tool.maximize()  # capture in maximized view (screen workarea)
+        tool.maximize()
 
         tool.sleep(.1)
         tool.press("Down")
@@ -62,7 +62,7 @@ def main():
         tool.press("Down")
 
         tool.sleep(.2)
-        tool.press("Return")              # activate
+        tool.press("Return")
 
         tool.sleep(.5)
 

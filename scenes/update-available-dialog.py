@@ -66,7 +66,7 @@ def main():
         tool.press("Up")
 
         tool.sleep(.2)
-        tool.press("Return")              # activate
+        tool.press("Return")
 
         tool.sleep(8) # big delay for update window to finish
         img = capture(

@@ -21,11 +21,11 @@ def main():
     tool = Tool(args=["HEAD~13"], log_name="head-commits.log")
     try:
         tool.wait_for_window()
-        tool.maximize()  # capture in maximized view (screen workarea)
-        tool.sleep(1)  # commit list, diff pane and status labels have settled
+        tool.maximize()
+        tool.sleep(1)
         tool.click_config_button()
-        tool.sleep(1)  # commit list, diff pane and status labels have settled
-        tool.click(1409, 951)   # right-click the commit row
+        tool.sleep(1)
+        tool.click(1409, 951)
 
         # 3. take the picture (this shot has no red boxes)
         img = capture(

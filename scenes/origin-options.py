@@ -42,7 +42,7 @@ def main():
         tool.press("Down")
 
         tool.sleep(.2)
-        tool.press("Return")              # activate
+        tool.press("Return")
 
         tool.sleep(.5)
         tool.click(532, 973)
@@ -91,7 +91,7 @@ def main():
         tool.press("Down")
 
         tool.sleep(.2)
-        tool.press("Return")              # activate
+        tool.press("Return")
 
         tool.sleep(.5)
         tool.press("Escape")

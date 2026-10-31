@@ -38,10 +38,10 @@ def main():
         tool.sleep(1)
         tool.click(1325, 260, button=3)
 
-        tool.sleep(.3)  # commit list, diff pane and status labels have settled
+        tool.sleep(.3)
         tool.press("Up")
 
-        tool.sleep(.3)  # commit list, diff pane and status labels have settled
+        tool.sleep(.3)
         tool.press("Up")
 
         tool.sleep(.2)
@@ -60,7 +60,7 @@ def main():
         img.draw_box(BOXES1)
         img.save("refine-changes-in-file-1.png")
 
-        tool.sleep(.3)  # commit list, diff pane and status labels have settled
+        tool.sleep(.3)
         tool.press("Down")
 
         tool.sleep(.2)

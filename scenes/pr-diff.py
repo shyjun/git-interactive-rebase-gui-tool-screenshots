@@ -42,7 +42,7 @@ def main():
         tool.press("Down")
 
         tool.sleep(.1)
-        tool.press("Return")              # activate
+        tool.press("Return")
 
         tool.sleep(.5)
         # 3. take the picture (this shot has no red boxes)

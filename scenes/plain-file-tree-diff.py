@@ -25,14 +25,14 @@ def main():
         tool.maximize()
         tool.sleep(1)
 
-        tool.click(230, 165, button=3)   # right-click the commit row
+        tool.click(230, 165, button=3)
 
         tool.sleep(.1)
         tool.press("Down")
         tool.sleep(.1)
         tool.press("Down")
         tool.sleep(.2)
-        tool.press("Return")              # activate
+        tool.press("Return")
 
         # 3. take the picture (this shot has no red boxes)
         tool.sleep(.2)

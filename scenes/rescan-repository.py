@@ -54,7 +54,7 @@ def main():
 
 
 
-        tool.sleep(1)  # commit list, diff pane and status labels have settled
+        tool.sleep(1)
         # 3. take the picture (this shot has no red boxes)
         img = capture(
             tool,
@@ -68,7 +68,7 @@ def main():
         tool.click(955, 495)
 
 
-        tool.sleep(1)  # commit list, diff pane and status labels have settled
+        tool.sleep(1)
         # 3. take the picture (this shot has no red boxes)
         img = capture(
             tool,
@@ -82,7 +82,7 @@ def main():
         tool.click(1220, 761)
 
 
-        tool.sleep(1)  # commit list, diff pane and status labels have settled
+        tool.sleep(1)
         # 3. take the picture (this shot has no red boxes)
         img = capture(
             tool,

@@ -21,8 +21,8 @@ def main():
     tool = Tool(args=["HEAD~13"], log_name="reorder-commit.log")
     try:
         tool.wait_for_window()
-        tool.maximize()  # capture in maximized view (screen workarea)
-        tool.sleep(1)    # commit list, diff pane and status labels have settled
+        tool.maximize()
+        tool.sleep(1)
 
         # select the row, then drag it three rows down (rows are 27px apart)
         tool.click(230, 165)
