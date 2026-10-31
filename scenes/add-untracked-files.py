@@ -82,6 +82,9 @@ def main():
             tool.press("Down")
             tool.sleep(.1)
 
+        tool.sleep(.2)
+        tool.press("Return")
+
         tool.sleep(1)
         tool.click(1337, 493)
 
