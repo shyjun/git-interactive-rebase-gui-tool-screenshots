@@ -24,7 +24,7 @@ def main():
         tool.maximize()
 
         tool.sleep(1)
-        tool.click(1418, 1028)
+        tool.click_config_button()
 
         tool.sleep(1)
         tool.click(1409, 930)

@@ -33,7 +33,7 @@ def main():
         tool.maximize()
 
         tool.sleep(.4)
-        tool.click(1418, 1028)
+        tool.click_config_button()
 
         tool.sleep(.2)
         tool.click(1472, 904)
@@ -82,7 +82,7 @@ def main():
 
 
         tool.sleep(.4)
-        tool.click(1418, 1028)
+        tool.click_config_button()
 
         tool.sleep(.2)
         tool.click(1472, 904)
