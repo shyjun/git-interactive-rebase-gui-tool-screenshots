@@ -32,17 +32,10 @@ def main():
         tool.sleep(1)
         tool.click_repo_button()
 
-        tool.sleep(.1)
-        tool.press("Up")
-
-        tool.sleep(.1)
-        tool.press("Up")
-
-        tool.sleep(.1)
-        tool.press("Up")
-
-        tool.sleep(.1)
-        tool.press("Up")
+        tool.sleep(.5)
+        for _ in range(12):               # menu: ... 6th item from the bottom
+            tool.press("Down")
+            tool.sleep(.1)
 
         tool.sleep(.2)
         tool.press("Return")
