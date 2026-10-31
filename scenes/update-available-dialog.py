@@ -50,8 +50,8 @@ def main():
         tool.wait_for_window()
         tool.maximize()
 
-        tool.sleep(8) # big delay for update check to finish
-        tool.click(1426, 1029)
+        tool.sleep(8)
+        tool.click_config_button()
 
         tool.sleep(.1)
         tool.press("Up")
@@ -68,7 +68,7 @@ def main():
         tool.sleep(.2)
         tool.press("Return")
 
-        tool.sleep(8) # big delay for update window to finish
+        tool.sleep(8)
         img = capture(
             tool,
             description="startup update check: Update(<sha>) available in the status bar",

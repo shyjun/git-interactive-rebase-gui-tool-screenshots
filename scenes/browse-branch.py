@@ -34,7 +34,7 @@ def main():
         tool.click_repo_button()
 
         tool.sleep(.5)
-        for _ in range(7):               # menu: ... 6th item from the bottom
+        for _ in range(7):
             tool.press("Down")
             tool.sleep(.1)
 
