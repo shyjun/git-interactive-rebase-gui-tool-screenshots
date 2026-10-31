@@ -85,8 +85,8 @@ def main():
         tool.sleep(.2)
         tool.press("Return")
 
-        tool.sleep(1)
-        tool.click(1337, 493)
+        #tool.sleep(1)
+        #tool.click(1337, 493)
 
         tool.sleep(1.5)
         # 3. take the picture (this shot has no red boxes)
