@@ -81,10 +81,10 @@ SCENES += [("browse-tags.py", ["browse-tags.png"])]
 SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
 SCENES += [("pr-diff.py", ["pr-diff.png"])]
 SCENES += [("add-untracked-files.py", ["add-untracked-files.png"])]
+SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 '''
 
 SCENES += [("submodule-manager.py", ["submodule-manager.png"])]
-SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 
 # SCENES += [("test.py", ["test.png"])]
 

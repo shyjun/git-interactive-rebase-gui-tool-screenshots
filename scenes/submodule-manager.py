@@ -1,35 +1,61 @@
-"""Capture add-untracked-files.png - the Add Untracked File(s) dialog.
+"""Capture submodule-manager.png — the Submodules dialog with registered
+submodules, one of which has a pointer change.
 
 Run it through main.py; it prepares the clone, settings and publishing.
 """
+import os
+import subprocess as _sp
+import shutil
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
 
-import shutil
 from capture_lib import Tool, capture, repo
 
 BOXES = [
-    {"rect": (504, 284, 1397, 678)},
+    {"rect": (510, 282, 1410, 682)},
     ]
+
+GIT_ENV = dict(
+    os.environ,
+    GIT_AUTHOR_NAME="bot",
+    GIT_AUTHOR_EMAIL="bot@x",
+    GIT_COMMITTER_NAME="bot",
+    GIT_COMMITTER_EMAIL="bot@x",
+)
+
+
+def _mini_repo(path, content):
+    d = Path(path)
+    d.mkdir(parents=True)
+    (d / "readme.txt").write_text(content)
+    _sp.run(["git", "init"], cwd=d, capture_output=True, check=True)
+    _sp.run(["git", "add", "-A"], cwd=d, capture_output=True, check=True)
+    _sp.run(["git", "commit", "-m", "init"], cwd=d, capture_output=True, check=True, env=GIT_ENV)
 
 
 def main():
-    # 1. put the reference clone back to the pinned commit
     repo.reset_to_base()
 
-    # 1b. seven new_*.c copies show up as untracked files for the dialog
-    #     (reset_to_base's git clean -fdx removes them again next run)
-    for stem in ("gui", "list", "screen", "json", "regexp", "indent", "kitty"):
-        shutil.copyfile(repo.path / "src" / f"{stem}.c",
-                        repo.path / "src" / f"new_{stem}.c")
+    for d in (Path(f"/tmp/submod-{i}") for i in (1, 2, 3)):
+        if d.exists():
+            shutil.rmtree(d)
 
-    # 2. open the tool: HEAD~13 shows the 13 newest commits (the list excludes
-    #    the base commit itself, so the arg must be one further back)
-    tool = Tool(args=["HEAD~13"], log_name="add-untracked-files.log")
-    # everything below runs inside the finally - no matter which step fails,
-    # the tool gets closed and cannot poison the next run
+    _mini_repo("/tmp/submod-1", "minimal submodule one")
+    _mini_repo("/tmp/submod-2", "minimal submodule two")
+    _mini_repo("/tmp/submod-3", "minimal submodule three")
+
+    repo.run("-c", "protocol.file.allow=always", "submodule", "add", "/tmp/submod-1", "lib/submod1")
+    repo.run("-c", "protocol.file.allow=always", "submodule", "add", "/tmp/submod-2", "lib/submod2")
+    repo.run("-c", "protocol.file.allow=always", "submodule", "add", "/tmp/submod-3", "lib/submod3")
+    repo.run("commit", "-m", "add test submodules")
+
+    with open(repo.path / "lib" / "submod2" / "readme.txt", "a") as fh:
+        fh.write("modified\n")
+    repo.run("-C", str(repo.path / "lib" / "submod2"), "commit", "-am", "advance submod2")
+
+    tool = Tool(args=["HEAD~13"], log_name="submodule-manager.log")
     try:
         tool.wait_for_window()
         tool.maximize()
@@ -46,10 +72,9 @@ def main():
         tool.press("Return")
 
         tool.sleep(1.5)
-        # 3. take the picture (this shot has no red boxes)
         img = capture(
             tool,
-            description="Repo menu -> Add Untracked File(s): seven new_*.c files listed",
+            description="Submodules dialog: 3 registered, submod2 pointer changed",
             size=(1920, 1042),
         )
         img.draw_box(BOXES)
@@ -62,7 +87,6 @@ def main():
         tool.press("Escape")
 
     finally:
-        # 4. close the tool - even when a step above failed
         tool.sleep(.5)
         tool.close()
 
