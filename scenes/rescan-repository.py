@@ -38,10 +38,10 @@ def main():
         tool.maximize()
 
         tool.sleep(1)
-        tool.click(183, 304, button=3)
+        tool.right_click(183, 304)
 
         tool.sleep(1)
-        tool.click(254, 425, button=3)
+        tool.right_click(254, 425)
 
         tool.sleep(1)
         tool.click(1022, 548)

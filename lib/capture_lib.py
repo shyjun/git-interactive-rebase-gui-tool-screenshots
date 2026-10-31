@@ -254,6 +254,10 @@ class Tool:
         _sh_ok(["xdotool", "click", str(button)], "click")
         time.sleep(0.2)
 
+    def right_click(self, x, y):
+        """Right-click at frame-relative coordinates (x, y)."""
+        self.click(x, y, button=3)
+
     def click_repo_button(self):
         """Click the Repo button in the bottom toolbar."""
         self.click(1288, 831)

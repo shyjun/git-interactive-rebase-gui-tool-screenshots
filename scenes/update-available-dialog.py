@@ -43,6 +43,7 @@ def set_auto_check(enabled):
 def main():
     repo.reset_to_base()
     set_auto_check(True)
+    print(str(TOOL_ROOT))
     _sh_ok(["git", "-C", str(TOOL_ROOT), "commit", "--amend", "--no-edit"], "amend tool copy")
 
     tool = Tool(args=[], log_name="update-available.log")
@@ -53,17 +54,11 @@ def main():
         tool.sleep(8)
         tool.click_config_button()
 
-        tool.sleep(.1)
-        tool.press("Up")
 
-        tool.sleep(.1)
-        tool.press("Up")
-
-        tool.sleep(.1)
-        tool.press("Up")
-
-        tool.sleep(.1)
-        tool.press("Up")
+        tool.sleep(.5)
+        for _ in range(5):
+            tool.press("Down")
+            tool.sleep(.1)
 
         tool.sleep(.2)
         tool.press("Return")

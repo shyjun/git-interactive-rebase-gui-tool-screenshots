@@ -25,7 +25,7 @@ def main():
         tool.maximize()
         tool.sleep(1)
 
-        tool.click(230, 165, button=3)
+        tool.right_click(230, 165)
 
         tool.sleep(.1)
         tool.press("Down")

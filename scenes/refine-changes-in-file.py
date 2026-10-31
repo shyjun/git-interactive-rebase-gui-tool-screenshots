@@ -36,13 +36,13 @@ def main():
         tool.click(516, 235)
 
         tool.sleep(1)
-        tool.click(1325, 260, button=3)
+        tool.right_click(1325, 260)
 
-        tool.sleep(.3)
-        tool.press("Up")
 
-        tool.sleep(.3)
-        tool.press("Up")
+        tool.sleep(.5)
+        for _ in range(9):
+            tool.press("Down")
+            tool.sleep(.1)
 
         tool.sleep(.2)
         tool.press("Return")

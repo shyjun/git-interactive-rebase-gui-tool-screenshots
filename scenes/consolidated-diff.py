@@ -26,23 +26,13 @@ def main():
         tool.wait_for_window()
         tool.maximize()
         tool.sleep(1)
-        tool.click(370, 165, button=3)
+        tool.right_click(370, 165)
         tool.sleep(.5)
 
-        tool.press("Up")
-        tool.sleep(.1)
-
-        tool.press("Up")
-        tool.sleep(.1)
-
-        tool.press("Up")
-        tool.sleep(.1)
-
-        tool.press("Up")
-        tool.sleep(.1)
-
-        tool.press("Up")
-        tool.sleep(.1)
+        tool.sleep(.5)
+        for _ in range(14):
+            tool.press("Down")
+            tool.sleep(.1)
 
         tool.press("Return")
         tool.sleep(.5)

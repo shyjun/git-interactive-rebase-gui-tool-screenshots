@@ -30,7 +30,7 @@ def main():
         tool.press("Down")
 
         tool.sleep(1)
-        tool.click(1230, 324, button=3)
+        tool.right_click(1230, 324)
 
         tool.sleep(.1)
         tool.press("Down")
@@ -44,7 +44,7 @@ def main():
         tool.sleep(5)
 
         tool.sleep(2)
-        tool.click(205, 205, button=3)
+        tool.right_click(205, 205)
         tool.sleep(.5)
 
         tool.sleep(.5)

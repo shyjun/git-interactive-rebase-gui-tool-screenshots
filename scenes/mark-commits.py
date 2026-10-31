@@ -28,7 +28,7 @@ def main():
         tool.maximize()
 
         tool.sleep(1)
-        tool.click(230, 165, button=3)
+        tool.right_click(230, 165)
 
         tool.sleep(.1)
         tool.press("Down")
@@ -36,14 +36,14 @@ def main():
         tool.press("Return")
 
         tool.sleep(1)
-        tool.click(260, 300, button=3)
+        tool.right_click(260, 300)
         tool.sleep(.1)
         tool.press("Down")
         tool.sleep(.1)
         tool.press("Return")
 
         tool.sleep(1)
-        tool.click(400, 410, button=3)
+        tool.right_click(400, 410)
         tool.sleep(.1)
         tool.press("Down")
         tool.sleep(.1)

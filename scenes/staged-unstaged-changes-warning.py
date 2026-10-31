@@ -32,28 +32,14 @@ def main():
         with open(repo.path / "src" / "spell.c", "a") as fh:
             fh.write("////\n")
 
-
-
         tool.sleep(1)
-        tool.click(370, 165, button=3)
+        tool.right_click(370, 165)
         tool.sleep(.5)
 
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
+        tool.sleep(.5)
+        for _ in range(8):
+            tool.press("Down")
+            tool.sleep(.1)
 
         tool.press("Return")
         tool.sleep(1)
@@ -76,25 +62,13 @@ def main():
 
 
         tool.sleep(1)
-        tool.click(370, 165, button=3)
+        tool.right_click(370, 165)
         tool.sleep(.5)
 
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
-        tool.press("Down")
-        tool.sleep(.1)
+        tool.sleep(.5)
+        for _ in range(8):
+            tool.press("Down")
+            tool.sleep(.1)
 
         tool.press("Return")
         tool.sleep(1)

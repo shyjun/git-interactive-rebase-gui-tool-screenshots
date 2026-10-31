@@ -28,7 +28,7 @@ def main():
         tool.wait_for_window()
         tool.maximize()
         tool.sleep(1)
-        tool.click(370, 165, button=3)
+        tool.right_click(370, 165)
         tool.sleep(.5)
 
         tool.press("Down")
@@ -43,7 +43,7 @@ def main():
         tool.click(666, 352)
         tool.sleep(.2)
 
-        tool.click(660, 387, button=3)
+        tool.right_click(660, 387)
         tool.sleep(.2)
 
         tool.press("Down")

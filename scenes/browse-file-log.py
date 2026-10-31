@@ -29,37 +29,12 @@ def main():
         tool.press("Down")
 
         tool.sleep(1)
-        tool.click(1230, 324, button=3)
+        tool.right_click(1230, 324)
 
-        tool.sleep(.1)
-        tool.press("Down")
-
-        tool.sleep(.1)
-        tool.press("Down")
-
-        tool.sleep(.1)
-        tool.press("Down")
-
-        tool.sleep(.1)
-        tool.press("Down")
-
-        tool.sleep(.1)
-        tool.press("Down")
-
-        tool.sleep(.1)
-        tool.press("Down")
-
-        tool.sleep(.1)
-        tool.press("Down")
-
-        tool.sleep(.1)
-        tool.press("Down")
-
-        tool.sleep(.1)
-        tool.press("Down")
-
-        tool.sleep(.1)
-        tool.press("Down")
+        tool.sleep(.5)
+        for _ in range(10):
+            tool.press("Down")
+            tool.sleep(.1)
 
         tool.sleep(.2)
         tool.press("Return")

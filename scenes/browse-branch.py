@@ -66,7 +66,7 @@ def main():
         tool.click(1076, 556)
 
         tool.sleep(.5)
-        tool.click(359, 197, button=3)
+        tool.right_click(359, 197)
 
         tool.sleep(.5)
         # 3. take the picture (this shot has no red boxes)
