@@ -79,11 +79,11 @@ SCENES += [("rebase-options.py", ["rebase-options.png"])]
 
 # repo menu related screenshots
 SCENES += [("add-untracked-files.py", ["add-untracked-files.png"])]
-SCENES += [("browse-branch.py", ["browse-branch.png"])]
-SCENES += [("browse-reflog.py", ["browse-reflog.png"])]
-SCENES += [("browse-stash.py", ["browse-stash.png"])]
-SCENES += [("browse-tags.py", ["browse-tags.png"])]
-SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
+#SCENES += [("browse-branch.py", ["browse-branch.png"])]
+#SCENES += [("browse-reflog.py", ["browse-reflog.png"])]
+#SCENES += [("browse-stash.py", ["browse-stash.png"])]
+#SCENES += [("browse-tags.py", ["browse-tags.png"])]
+#SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
 SCENES += [("pr-diff.py", ["pr-diff.png"])]
 
 
