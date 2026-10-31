@@ -33,7 +33,7 @@ def main():
         tool.click(149, 269)
 
         tool.sleep(1)
-        tool.click(1288, 831)
+        tool.click_repo_button()
 
         tool.sleep(.1)
         tool.press("Down")

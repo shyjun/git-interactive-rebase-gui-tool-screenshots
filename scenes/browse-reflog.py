@@ -22,7 +22,7 @@ def main():
         tool.maximize()
 
         tool.sleep(1)
-        tool.click(1288, 831)
+        tool.click_repo_button()
 
         tool.sleep(.1)
         tool.press("Up")

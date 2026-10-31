@@ -46,7 +46,7 @@ def main():
         tool.maximize()
 
         tool.sleep(1)
-        tool.click(1288, 831)             # Repo button
+        tool.click_repo_button()
 
         tool.sleep(.5)
         for _ in range(10):               # menu: ... 6th item from the bottom
@@ -76,7 +76,7 @@ def main():
         tool.click(1072, 541)
 
         tool.sleep(1)
-        tool.click(1288, 831)
+        tool.click_repo_button()
 
         tool.sleep(1)
         tool.click(1337, 493)

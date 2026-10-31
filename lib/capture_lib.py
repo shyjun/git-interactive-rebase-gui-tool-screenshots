@@ -254,6 +254,10 @@ class Tool:
         _sh_ok(["xdotool", "click", str(button)], "click")
         time.sleep(0.2)
 
+    def click_repo_button(self):
+        """Click the Repo button in the bottom toolbar."""
+        self.click(1288, 831)
+
     def drag(self, x1, y1, x2, y2, steps=12):
         """Press at (x1, y1), drag to (x2, y2), release. Frame-relative
         coordinates, same space as click()."""
