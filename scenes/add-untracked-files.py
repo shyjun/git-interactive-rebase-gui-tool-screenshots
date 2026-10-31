@@ -78,7 +78,7 @@ def main():
         tool.sleep(1)
         tool.click_repo_button()
 
-        for _ in range(5):
+        for _ in range(6):
             tool.press("Down")
             tool.sleep(.1)
 
