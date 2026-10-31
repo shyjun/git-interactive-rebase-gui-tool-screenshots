@@ -3,9 +3,6 @@ submodules, one of which has a pointer change.
 
 Run it through main.py; it prepares the clone, settings and publishing.
 """
-import os
-import subprocess as _sp
-import shutil
 import sys
 from pathlib import Path
 
@@ -17,43 +14,34 @@ BOXES = [
     {"rect": (510, 282, 1410, 682)},
     ]
 
-GIT_ENV = dict(
-    os.environ,
-    GIT_AUTHOR_NAME="bot",
-    GIT_AUTHOR_EMAIL="bot@x",
-    GIT_COMMITTER_NAME="bot",
-    GIT_COMMITTER_EMAIL="bot@x",
-)
+SUBMODULES = [
+    ("https://github.com/DaveGamble/cJSON.git", "lib/cjson"),
+    ("https://github.com/rxi/log.c.git", "lib/log"),
+    ("https://github.com/akheron/jansson.git", "lib/jansson"),
+    ("https://github.com/benhoyt/inih.git", "lib/inih"),
+    ("https://github.com/rxi/vec.git", "lib/vec"),
+    ("https://github.com/tidwall/hashmap.c.git", "lib/hashmap"),
+    ("https://github.com/rxi/map.git", "lib/map"),
+]
 
-
-def _mini_repo(path, content):
-    d = Path(path)
-    d.mkdir(parents=True)
-    (d / "readme.txt").write_text(content)
-    _sp.run(["git", "init"], cwd=d, capture_output=True, check=True)
-    _sp.run(["git", "add", "-A"], cwd=d, capture_output=True, check=True)
-    _sp.run(["git", "commit", "-m", "init"], cwd=d, capture_output=True, check=True, env=GIT_ENV)
+# The one we advance to show "pointer changed" (2nd entry, lib/log)
+ADVANCE_PATH = SUBMODULES[1][1]
 
 
 def main():
     repo.reset_to_base()
 
-    for d in (Path(f"/tmp/submod-{i}") for i in (1, 2, 3)):
-        if d.exists():
-            shutil.rmtree(d)
+    for url, path in SUBMODULES:
+        repo.run("-c", "protocol.file.allow=always", "submodule", "add", url, path)
 
-    _mini_repo("/tmp/submod-1", "minimal submodule one")
-    _mini_repo("/tmp/submod-2", "minimal submodule two")
-    _mini_repo("/tmp/submod-3", "minimal submodule three")
-
-    repo.run("-c", "protocol.file.allow=always", "submodule", "add", "/tmp/submod-1", "lib/submod1")
-    repo.run("-c", "protocol.file.allow=always", "submodule", "add", "/tmp/submod-2", "lib/submod2")
-    repo.run("-c", "protocol.file.allow=always", "submodule", "add", "/tmp/submod-3", "lib/submod3")
+    repo.run("add", ".gitmodules")
     repo.run("commit", "-m", "add test submodules")
 
-    with open(repo.path / "lib" / "submod2" / "readme.txt", "a") as fh:
+    with open(repo.path / ADVANCE_PATH / "readme.txt", "a") as fh:
         fh.write("modified\n")
-    repo.run("-C", str(repo.path / "lib" / "submod2"), "commit", "-am", "advance submod2")
+    sub_log = str(repo.path / ADVANCE_PATH)
+    repo.run("-C", sub_log, "add", "readme.txt")
+    repo.run("-C", sub_log, "commit", "-m", "advance pointer")
 
     tool = Tool(args=["HEAD~13"], log_name="submodule-manager.log")
     try:
@@ -74,7 +62,7 @@ def main():
         tool.sleep(1.5)
         img = capture(
             tool,
-            description="Submodules dialog: 3 registered, submod2 pointer changed",
+            description="Submodules dialog: 7 registered libs, lib/log pointer changed",
             size=(1920, 1042),
         )
         img.draw_box(BOXES)
