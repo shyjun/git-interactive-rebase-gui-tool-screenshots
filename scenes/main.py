@@ -165,8 +165,15 @@ def step1_preflight():
     if not (SCREENSHOTS_REPO / ".git").exists():
         fail(f"screenshots repo not found at {SCREENSHOTS_REPO}")
     res = run(["git", "status", "--porcelain"], cwd=SCREENSHOTS_REPO)
-    if res.stdout.strip():
-        fail(f"screenshots repo has uncommitted changes - commit or stash them first:\n{res.stdout}")
+    # capture.sh deletes everything in screenshots/ before running us - those
+    # deletions are expected; anything else dirty must be fixed by hand.
+    dirty = [
+        line for line in res.stdout.splitlines()
+        if not (line.startswith(" D") and "screenshots/" in line)
+    ]
+    if dirty:
+        fail("screenshots repo has uncommitted changes - commit or stash them first:\n"
+             + "\n".join(dirty))
 
 
 def step2_work_folder():
@@ -238,14 +245,17 @@ def step5_publish():
             fail(f"conversion did not produce {webp.name}")
     # Move to the target branch first: a fresh branch off the current HEAD (the
     # robot and the image layout live in this repo, so branching from HEAD keeps
-    # them), forcing away any copies a previous (possibly interrupted) run left.
-    # step1 guarantees the repo started clean, so -f only undoes our own copies.
-    run(["git", "checkout", "-f", "-B", BRANCH], cwd=SCREENSHOTS_REPO)
+    # them).  No -f: capture.sh wiped screenshots/ before we started and those
+    # deletions must survive so excluded scenes stay gone (and get committed).
+    # step1 lets exactly those deletions through, so the tree is otherwise clean.
+    run(["git", "checkout", "-B", BRANCH], cwd=SCREENSHOTS_REPO)
     SHOTS_DIR.mkdir(parents=True, exist_ok=True)
     for webp in webps:
         shutil.copy(OUT_DIR / webp, SHOTS_DIR / webp)
         print(f"  copied {webp}")
-    run(["git", "add", "--"] + [f"screenshots/{webp}" for webp in webps], cwd=SCREENSHOTS_REPO)
+    # -A stages the deletions capture.sh made alongside the fresh copies,
+    # so a scene dropped from SCENES really disappears from the committed tree.
+    run(["git", "add", "-A", "--", "screenshots/"], cwd=SCREENSHOTS_REPO)
     res = run(["git", "commit", "-m", "capture: " + ", ".join(webps)], cwd=SCREENSHOTS_REPO, check=False)
     if res.returncode != 0 and "nothing to commit" not in res.stdout + res.stderr:
         fail(f"commit failed:\n{res.stdout}\n{res.stderr}")
