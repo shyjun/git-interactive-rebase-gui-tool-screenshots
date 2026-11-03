@@ -53,7 +53,7 @@ def main():
         tool.click_repo_button()
 
         tool.sleep(.5)
-        for _ in range(16):
+        for _ in range(17):
             tool.press("Down")
             tool.sleep(.1)
 
