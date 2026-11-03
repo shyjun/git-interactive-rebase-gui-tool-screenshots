@@ -37,7 +37,7 @@ REF_COMMIT = "f893b2a853e1559d51291a3731d6cd6df79f1a51"
 # One line per screenshot: (script, [images the script must produce]).
 
 SCENES = []
-'''
+#'''
 SCENES += [("rephrase-and-drop-commit.py", ["rephrase-and-drop-commit.png"])]
 SCENES += [("mark-commits.py", ["mark-commits.png"])]
 SCENES += [("tag-commit.py", ["tag-commit.png"])]
@@ -82,9 +82,9 @@ SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
 SCENES += [("pr-diff.py", ["pr-diff.png"])]
 SCENES += [("add-untracked-files.py", ["add-untracked-files.png"])]
 SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
-'''
 SCENES += [("submodule-manager.py", ["submodule-manager.png"])]
 SCENES += [("rename-move.py", ["rename-move.png"])]
+#'''
 
 # SCENES += [("test.py", ["test.png"])]
 
