@@ -9,8 +9,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
 
 from capture_lib import Tool, capture, repo, image_new, _sh_ok
 BOXES = [
-    {"rect": (533, 563, 1371, 632)},
-    {"rect": (512, 312, 1388, 649)},
+    {"rect": (551, 334, 1352, 630)},
+    {"rect": (570, 546, 1330, 607)},
     ]
 
 def main():
