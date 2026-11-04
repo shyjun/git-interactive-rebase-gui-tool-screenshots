@@ -45,7 +45,7 @@ def main():
             size=(1920, 1042),
         )
         img.draw_box(BOXES)
-        img.save("rename-move.png")
+        img.save("remove-file.png")
 
         tool.sleep(.5)
         tool.press("Escape")
