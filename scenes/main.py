@@ -84,7 +84,7 @@ SCENES += [("add-untracked-files.py", ["add-untracked-files.png"])]
 SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 '''
 SCENES += [("rename-move.py", ["rename-move.png"])]
-SCENES += [("rename-move.py", ["rename-move.png"])]
+SCENES += [("remove-file.py", ["remove-file.png"])]
 SCENES += [("submodule-manager.py", ["submodule-manager.png"])]
 
 # SCENES += [("test.py", ["test.png"])]
