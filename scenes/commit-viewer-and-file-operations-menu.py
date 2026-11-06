@@ -12,7 +12,7 @@ from capture_lib import Tool, capture, repo
 BOXES = [
     {"rect": (517, 153, 1383, 809)},
     {"rect": (962, 377, 1159, 409)},
-    {"rect": (650, 378, 957, 588)},
+    {"rect": (650, 378, 957, 612)},
     ]
 
 def main():

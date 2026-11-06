@@ -37,7 +37,7 @@ REF_COMMIT = "f893b2a853e1559d51291a3731d6cd6df79f1a51"
 # One line per screenshot: (script, [images the script must produce]).
 
 SCENES = []
-#'''
+'''
 SCENES += [("rephrase-and-drop-commit.py", ["rephrase-and-drop-commit.png"])]
 SCENES += [("mark-commits.py", ["mark-commits.png"])]
 SCENES += [("tag-commit.py", ["tag-commit.png"])]
@@ -51,7 +51,6 @@ SCENES += [("browse-file-log.py", ["browse-file-log.png"])]
 SCENES += [("consolidated-diff.py", ["consolidated-diff.png"])]
 SCENES += [("dark-theme.py", ["dark-theme.png"])]
 SCENES += [("blame-a-file.py", ["blame-a-file.png"])]
-SCENES += [("commit-viewer-and-file-operations-menu.py", ["commit-viewer-and-file-operations-menu.png"])]
 SCENES += [("main-interface.py", ["main-interface.png"])]
 SCENES += [("plain-file-tree-diff.py", ["plain-file-tree-diff.png"])]
 SCENES += [("split-each-to-separate.py", ["split-each-to-separate.png"])]
@@ -59,7 +58,6 @@ SCENES += [("split-all-to-separate.py", ["split-all-to-separate.png"])]
 SCENES += [("drag-reorder.py", ["drag-reorder.png"])]
 SCENES += [("split-move-single-file-1.py", ["split-move-single-file-1.png", "split-move-single-file-2.png"])]
 SCENES += [("rescan-repository.py", ["rescan-repository.png", "commit-selectively.png"])]
-SCENES += [("refine-changes-in-file.py", ["refine-changes-in-file-1.png", "refine-changes-in-file-2.png"])]
 SCENES += [("viewer-mode.py", ["viewer-mode.png"])]
 SCENES += [("head-commits.py", ["head-commits.png"])]
 SCENES += [("staged-unstaged-changes-warning.py", ["staged-unstaged-changes-warning.png"])]
@@ -85,7 +83,9 @@ SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 SCENES += [("rename-move.py", ["rename-move.png"])]
 SCENES += [("remove-file.py", ["remove-file.png"])]
 SCENES += [("submodule-manager.py", ["submodule-manager.png"])]
-#'''
+'''
+SCENES += [("refine-changes-in-file.py", ["refine-changes-in-file-1.png", "refine-changes-in-file-2.png"])]
+SCENES += [("commit-viewer-and-file-operations-menu.py", ["commit-viewer-and-file-operations-menu.png"])]
 
 # SCENES += [("test.py", ["test.png"])]
 

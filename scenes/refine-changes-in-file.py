@@ -40,7 +40,7 @@ def main():
 
 
         tool.sleep(.5)
-        for _ in range(9):
+        for _ in range(10):
             tool.press("Down")
             tool.sleep(.1)
 
