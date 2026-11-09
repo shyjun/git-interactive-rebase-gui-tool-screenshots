@@ -37,7 +37,7 @@ REF_COMMIT = "f893b2a853e1559d51291a3731d6cd6df79f1a51"
 # One line per screenshot: (script, [images the script must produce]).
 
 SCENES = []
-#'''
+'''
 SCENES += [("rephrase-and-drop-commit.py", ["rephrase-and-drop-commit.png"])]
 SCENES += [("mark-commits.py", ["mark-commits.png"])]
 SCENES += [("tag-commit.py", ["tag-commit.png"])]
@@ -57,7 +57,11 @@ SCENES += [("split-each-to-separate.py", ["split-each-to-separate.png"])]
 SCENES += [("split-all-to-separate.py", ["split-all-to-separate.png"])]
 SCENES += [("drag-reorder.py", ["drag-reorder.png"])]
 SCENES += [("split-move-single-file-1.py", ["split-move-single-file-1.png", "split-move-single-file-2.png"])]
-SCENES += [("rescan-repository.py", ["rescan-repository.png", "commit-selectively.png"])]
+# git-add-p-hunks / handle-staged-changes / commit_or_unstage-staged-selectively
+# are secondary shots of these two scenes: they are saved into .work/out/ but
+# step5 only copies images listed here, so leaving them out wiped them from
+# screenshots/ on every run while docs/screenshots.md kept referencing them.
+SCENES += [("rescan-repository.py", ["rescan-repository.png", "commit-selectively.png", "git-add-p-hunks.png"])]
 SCENES += [("viewer-mode.py", ["viewer-mode.png"])]
 SCENES += [("head-commits.py", ["head-commits.png"])]
 SCENES += [("staged-unstaged-changes-warning.py", ["staged-unstaged-changes-warning.png"])]
@@ -66,7 +70,7 @@ SCENES += [("file-list-hover-toolbar.py", ["file-list-hover-toolbar.png"])]
 SCENES += [("main-menus.py", ["main-menus.png"])]
 SCENES += [("refine-changes-in-file.py", ["refine-changes-in-file-1.png", "refine-changes-in-file-2.png"])]
 SCENES += [("commit-viewer-and-file-operations-menu.py", ["commit-viewer-and-file-operations-menu.png"])]
-SCENES += [("add-untracked-files.py", ["add-untracked-files.png"])]
+SCENES += [("add-untracked-files.py", ["add-untracked-files.png", "handle-staged-changes.png", "commit_or_unstage-staged-selectively.png"])]
 
 # config menu related screenshots
 SCENES += [("external-tools-dialog.py", ["external-tools-dialog.png"])]
@@ -83,9 +87,9 @@ SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
 SCENES += [("pr-diff.py", ["pr-diff.png"])]
 SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 SCENES += [("rename-move.py", ["rename-move.png"])]
+#'''
 SCENES += [("remove-file.py", ["remove-file.png"])]
 SCENES += [("submodule-manager.py", ["submodule-manager.png"])]
-#'''
 
 # SCENES += [("test.py", ["test.png"])]
 
