@@ -64,6 +64,8 @@ SCENES += [("staged-unstaged-changes-warning.py", ["staged-unstaged-changes-warn
 SCENES += [("fault-handling.py", ["fault-handling.png"])]
 SCENES += [("file-list-hover-toolbar.py", ["file-list-hover-toolbar.png"])]
 SCENES += [("main-menus.py", ["main-menus.png"])]
+SCENES += [("refine-changes-in-file.py", ["refine-changes-in-file-1.png", "refine-changes-in-file-2.png"])]
+SCENES += [("commit-viewer-and-file-operations-menu.py", ["commit-viewer-and-file-operations-menu.png"])]
 
 # config menu related screenshots
 SCENES += [("external-tools-dialog.py", ["external-tools-dialog.png"])]
@@ -78,14 +80,12 @@ SCENES += [("browse-stash.py", ["browse-stash.png"])]
 SCENES += [("browse-tags.py", ["browse-tags.png"])]
 SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
 SCENES += [("pr-diff.py", ["pr-diff.png"])]
-SCENES += [("add-untracked-files.py", ["add-untracked-files.png"])]
 SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 SCENES += [("rename-move.py", ["rename-move.png"])]
 SCENES += [("remove-file.py", ["remove-file.png"])]
 SCENES += [("submodule-manager.py", ["submodule-manager.png"])]
 '''
-SCENES += [("refine-changes-in-file.py", ["refine-changes-in-file-1.png", "refine-changes-in-file-2.png"])]
-SCENES += [("commit-viewer-and-file-operations-menu.py", ["commit-viewer-and-file-operations-menu.png"])]
+SCENES += [("add-untracked-files.py", ["add-untracked-files.png"])]
 
 # SCENES += [("test.py", ["test.png"])]
 
