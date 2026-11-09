@@ -37,7 +37,7 @@ REF_COMMIT = "f893b2a853e1559d51291a3731d6cd6df79f1a51"
 # One line per screenshot: (script, [images the script must produce]).
 
 SCENES = []
-'''
+#'''
 SCENES += [("rephrase-and-drop-commit.py", ["rephrase-and-drop-commit.png"])]
 SCENES += [("mark-commits.py", ["mark-commits.png"])]
 SCENES += [("tag-commit.py", ["tag-commit.png"])]
@@ -66,6 +66,7 @@ SCENES += [("file-list-hover-toolbar.py", ["file-list-hover-toolbar.png"])]
 SCENES += [("main-menus.py", ["main-menus.png"])]
 SCENES += [("refine-changes-in-file.py", ["refine-changes-in-file-1.png", "refine-changes-in-file-2.png"])]
 SCENES += [("commit-viewer-and-file-operations-menu.py", ["commit-viewer-and-file-operations-menu.png"])]
+SCENES += [("add-untracked-files.py", ["add-untracked-files.png"])]
 
 # config menu related screenshots
 SCENES += [("external-tools-dialog.py", ["external-tools-dialog.png"])]
@@ -84,8 +85,7 @@ SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 SCENES += [("rename-move.py", ["rename-move.png"])]
 SCENES += [("remove-file.py", ["remove-file.png"])]
 SCENES += [("submodule-manager.py", ["submodule-manager.png"])]
-'''
-SCENES += [("add-untracked-files.py", ["add-untracked-files.png"])]
+#'''
 
 # SCENES += [("test.py", ["test.png"])]
 
