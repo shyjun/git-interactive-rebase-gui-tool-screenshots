@@ -159,9 +159,12 @@ def _sweep_markers():
 class Tool:
     """One running instance of the GUI."""
 
-    def __init__(self, args, log_name, sweep_markers=True):
+    def __init__(self, args, log_name, sweep_markers=True, repo_path=None):
         LOG_DIR.mkdir(parents=True, exist_ok=True)
         OUT_DIR.mkdir(parents=True, exist_ok=True)
+        # The clone the tool opens; scenes may point one instance at another
+        # repo (e.g. a throwaway /tmp clone) without touching the shared one.
+        self.repo_path = Path(repo_path) if repo_path else CLONE_DIR
         self._log_path = LOG_DIR / log_name
         self._log = open(self._log_path, "w")
         env = dict(os.environ)
@@ -172,7 +175,7 @@ class Tool:
             _sweep_markers()  # stale markers from a killed run would pop "Previous Run"
         self.proc = subprocess.Popen(
             [sys.executable, str(TOOL_ROOT / "git_interactive_rebase.py"), *[str(a) for a in args]],
-            cwd=str(CLONE_DIR),
+            cwd=str(self.repo_path),
             stdout=self._log,  # not a tty on purpose: stops the tool from forking away from us
             stderr=subprocess.STDOUT,
             env=env,
@@ -182,8 +185,8 @@ class Tool:
 
     @property
     def _title_marker(self):
-        # Contains the clone path, so we never grab another instance's window.
-        return f"path={CLONE_DIR}"
+        # Contains the repo path, so we never grab another instance's window.
+        return f"path={self.repo_path}"
 
     def _our_windows(self):
         """Title matches our clone AND belongs to our own process.
