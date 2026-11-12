@@ -109,12 +109,10 @@ def main():
 
         img.draw_box(BOXES)
 
-        img.save("fetch-progress.png")
+        img.save("origin-options.png")
 
         tool.sleep(.5)
         tool.click(1131, 603)
-        tool.sleep(.5)
-
 
 
         '''
@@ -131,6 +129,14 @@ def main():
 
         tool.sleep(.5)
         tool.sleep(.5)
+
+
+        # menu open, window still maximized
+        img = capture_screen(
+            0, 0, 1920, 1042,          # whole screen, taskbar included
+            description="Origin group with git fetch/pull menu open",
+        )
+        img.save("fetch-progress.png")
 
 
 
