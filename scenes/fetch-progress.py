@@ -119,6 +119,10 @@ def main():
         tool.sleep(.5)
         tool.sleep(.5)
         tool.sleep(.5)
+        tool.sleep(.5)
+        tool.sleep(.5)
+        tool.sleep(.5)
+        tool.sleep(.5)
 
 
         # menu open, window still maximized
@@ -127,9 +131,7 @@ def main():
             description="Origin group with git fetch/pull menu open",
         )
 
-
         img.draw_box(BOXES)
-
         img.save("fetch-progress.png")
 
 
