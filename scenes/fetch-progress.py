@@ -123,6 +123,15 @@ def main():
         tool.sleep(.5)
         tool.sleep(.5)
         tool.sleep(.5)
+        tool.sleep(.5)
+        tool.sleep(.5)
+        tool.sleep(.5)
+        tool.sleep(.5)
+        tool.sleep(.5)
+        tool.sleep(.5)
+        tool.sleep(.5)
+        tool.sleep(.5)
+
 
 
         # menu open, window still maximized
