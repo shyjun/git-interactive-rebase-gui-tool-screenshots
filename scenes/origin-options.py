@@ -36,31 +36,15 @@ def main():
         tool.click_config_button()
 
         tool.sleep(.2)
-        tool.click(1472, 904)
+        tool.press("Down")
 
         tool.sleep(.2)
-        tool.press("Down")
+        tool.press("Right")
 
         tool.sleep(.2)
         tool.press("Return")
 
-        tool.sleep(.5)
-        tool.click(532, 973)
 
-        tool.sleep(.5)
-
-        # menu open, window still maximized
-        img = capture_screen(
-            0, 0, 1920, 1042,          # whole screen, taskbar included
-            description="Origin group with git fetch/pull menu open",
-        )
-
-        img.draw_box(BOXES)
-
-        img.save("origin-options.png")
-
-        tool.sleep(.5)
-        tool.press("Escape")
 
         tool.sleep(.4)
         tool.click(1495, 979)
@@ -81,14 +65,33 @@ def main():
 
 
 
+        tool.sleep(.5)
+        tool.click(532, 973)
+
+        tool.sleep(.5)
+
+        # menu open, window still maximized
+        img = capture_screen(
+            0, 0, 1920, 1042,          # whole screen, taskbar included
+            description="Origin group with git fetch/pull menu open",
+        )
+
+        img.draw_box(BOXES)
+
+        img.save("origin-options.png")
+
+        tool.sleep(.5)
+        tool.press("Escape")
+
+
         tool.sleep(.4)
         tool.click_config_button()
 
         tool.sleep(.2)
-        tool.click(1472, 904)
+        tool.press("Down")
 
         tool.sleep(.2)
-        tool.press("Down")
+        tool.press("Right")
 
         tool.sleep(.2)
         tool.press("Return")
