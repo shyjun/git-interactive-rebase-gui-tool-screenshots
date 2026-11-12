@@ -69,9 +69,7 @@ def show_origin_group(tool):
     tool.sleep(.5)
 
 BOXES = [
-    {"rect": (3, 936, 1914, 1017)},
-    {"rect": (716, 319, 1184, 642)},
-    {"rect": (12, 951, 644, 1001)},
+    {"rect": (720, 370, 1180, 592)},
     ]
 
 def main():
@@ -125,6 +123,10 @@ def main():
             0, 0, 1920, 1042,          # whole screen, taskbar included
             description="Origin group with git fetch/pull menu open",
         )
+
+
+        img.draw_box(BOXES)
+
         img.save("fetch-progress.png")
 
 
