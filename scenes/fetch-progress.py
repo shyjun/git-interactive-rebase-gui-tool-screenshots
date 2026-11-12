@@ -105,18 +105,6 @@ def main():
         tool.click(1131, 603)
 
 
-        '''
-        print("\nTool is open on the old-history repo with the Origin group visible.")
-        print("git fetch/pull offers two slow paths now:")
-        print("  - 'Fetch only'        -> 'Git Fetching' progress dialog")
-        print("  - 'Fetch and merge'   -> 'Git Pull' / 'git pull: fetching remote...'")
-        print("Abort the fetch once you have the shot (otherwise it downloads the")
-        print("whole vim history). Close the tool window when done (or Ctrl+C here);")
-        print("the /tmp repo is deleted afterwards.\n", flush=True)
-
-        tool.proc.wait()
-        '''
-
         tool.sleep(.5)
         tool.sleep(.5)
         tool.sleep(.5)
@@ -143,7 +131,7 @@ def main():
 
     finally:
         tool.close()
-        #shutil.rmtree(LEGACY_REPO, ignore_errors=True)
+        shutil.rmtree(LEGACY_REPO, ignore_errors=True)
         print(f"  removed {LEGACY_REPO}", flush=True)
 
 
