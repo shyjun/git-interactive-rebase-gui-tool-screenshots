@@ -81,8 +81,8 @@ def main():
         img.save("origin-options.png")
 
 
-        tool.sleep(.4)
-        tool.click(1131, 605)
+        #tool.sleep(.4)
+        #tool.click(1131, 605)
 
 
 
