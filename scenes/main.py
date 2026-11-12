@@ -37,7 +37,7 @@ REF_COMMIT = "f893b2a853e1559d51291a3731d6cd6df79f1a51"
 # One line per screenshot: (script, [images the script must produce]).
 
 SCENES = []
-#'''
+'''
 SCENES += [("rephrase-and-drop-commit.py", ["rephrase-and-drop-commit.png"])]
 SCENES += [("mark-commits.py", ["mark-commits.png"])]
 SCENES += [("tag-commit.py", ["tag-commit.png"])]
@@ -90,8 +90,9 @@ SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 SCENES += [("rename-move.py", ["rename-move.png"])]
 SCENES += [("remove-file.py", ["remove-file.png"])]
 SCENES += [("submodule-manager.py", ["submodule-manager.png"])]
-#'''
+'''
 
+SCENES += [("browse-branch.py", ["browse-branch.png"])]
 # SCENES += [("test.py", ["test.png"])]
 
 # ==========================================================
