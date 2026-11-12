@@ -89,7 +89,8 @@ SCENES += [("rename-move.py", ["rename-move.png"])]
 SCENES += [("remove-file.py", ["remove-file.png"])]
 SCENES += [("submodule-manager.py", ["submodule-manager.png"])]
 '''
-SCENES += [("origin-options.py", ["origin-options.png", "push-dialog.png"])]
+#SCENES += [("origin-options.py", ["origin-options.png", "push-dialog.png"])]
+SCENES += [("fetch-progress.py", ["fetch-progress.png", "fetch-progress.png"])]
 
 # SCENES += [("test.py", ["test.png"])]
 

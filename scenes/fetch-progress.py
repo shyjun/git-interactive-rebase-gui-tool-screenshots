@@ -7,7 +7,9 @@ Not registered in SCENES - run it directly from the repo root:
 What it does:
 
   1. builds /tmp/screenshot_robot_vim_legacy with only vim 7.0002's commit
-     (a depth=1 fetch of the hardcoded SHA, so no discovery clone is needed)
+     (a depth=1 fetch of the hardcoded SHA, so no discovery clone is needed),
+     plus a local origin/old-history ref so the Pull options pass the tool's
+     upstream check instead of bailing out instantly
   2. opens the tool there, maximized, with the Origin group visible
   3. leaves the tool open so you can trigger fetch/pull and capture the
      progress dialog yourself
@@ -23,7 +25,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "lib"))
 
-from capture_lib import Tool, _sh_ok
+from capture_lib import Tool, _sh_ok, capture_screen
 from main import seed_settings
 
 LEGACY_REPO = Path("/tmp/screenshot_robot_vim_legacy")
@@ -45,6 +47,13 @@ def prepare_legacy_repo():
     run("remote", "add", "origin", VIM_URL)
     run("fetch", "--progress", "--depth=1", "origin", OLD_COMMIT)
     run("switch", "-c", "old-history", "FETCH_HEAD")
+    # Give the tool an upstream to check for the Pull options (it refuses to
+    # fetch when origin/<branch> is missing). The ref is local only - GitHub
+    # has no old-history branch - but it lets "Fetch and merge / rebase" run
+    # the slow fetch under the "Git Pull" progress dialog.
+    run("update-ref", "refs/remotes/origin/old-history", OLD_COMMIT)
+    run("config", "branch.old-history.remote", "origin")
+    run("config", "branch.old-history.merge", "refs/heads/old-history")
     print(f"  repo ready: {LEGACY_REPO} (old-history @ {OLD_COMMIT[:8]})", flush=True)
 
 
@@ -59,6 +68,11 @@ def show_origin_group(tool):
     tool.press("Return")
     tool.sleep(.5)
 
+BOXES = [
+    {"rect": (3, 936, 1914, 1017)},
+    {"rect": (716, 319, 1184, 642)},
+    {"rect": (12, 951, 644, 1001)},
+    ]
 
 def main():
     prepare_legacy_repo()
@@ -69,17 +83,60 @@ def main():
         tool.wait_for_window()
         tool.maximize()
         tool.sleep(1)
-        show_origin_group(tool)
 
+        tool.sleep(.4)
+        tool.click(1566, 1029)
+
+        tool.sleep(.2)
+        tool.press("Down")
+
+        tool.sleep(.2)
+        tool.press("Right")
+
+        tool.sleep(.2)
+        tool.press("Return")
+
+        tool.sleep(.5)
+        tool.click(532, 973)
+
+        tool.sleep(.5)
+
+        # menu open, window still maximized
+        img = capture_screen(
+            0, 0, 1920, 1042,          # whole screen, taskbar included
+            description="Origin group with git fetch/pull menu open",
+        )
+
+        img.draw_box(BOXES)
+
+        img.save("fetch-progress.png")
+
+        tool.sleep(.5)
+        tool.click(1131, 603)
+        tool.sleep(.5)
+
+
+
+        '''
         print("\nTool is open on the old-history repo with the Origin group visible.")
-        print("Click 'git fetch/pull' -> 'Fetch only' -> 'Fetch', then capture the")
-        print("progress dialog. Close the tool window when done (or Ctrl+C here);")
+        print("git fetch/pull offers two slow paths now:")
+        print("  - 'Fetch only'        -> 'Git Fetching' progress dialog")
+        print("  - 'Fetch and merge'   -> 'Git Pull' / 'git pull: fetching remote...'")
+        print("Abort the fetch once you have the shot (otherwise it downloads the")
+        print("whole vim history). Close the tool window when done (or Ctrl+C here);")
         print("the /tmp repo is deleted afterwards.\n", flush=True)
 
         tool.proc.wait()
+        '''
+
+        tool.sleep(.5)
+        tool.sleep(.5)
+
+
+
     finally:
         tool.close()
-        shutil.rmtree(LEGACY_REPO, ignore_errors=True)
+        #shutil.rmtree(LEGACY_REPO, ignore_errors=True)
         print(f"  removed {LEGACY_REPO}", flush=True)
 
 
