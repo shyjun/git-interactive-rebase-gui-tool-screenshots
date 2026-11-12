@@ -131,6 +131,10 @@ def main():
         tool.sleep(.5)
         tool.sleep(.5)
         tool.sleep(.5)
+        tool.sleep(.5)
+        tool.sleep(.5)
+        tool.sleep(.5)
+        tool.sleep(.5)
 
 
 
