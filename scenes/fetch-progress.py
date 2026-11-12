@@ -134,6 +134,9 @@ def main():
         img.draw_box(BOXES)
         img.save("fetch-progress.png")
 
+        tool.sleep(.5)
+        tool.sleep(.5)
+
 
 
     finally:
