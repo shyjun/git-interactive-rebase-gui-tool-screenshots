@@ -37,7 +37,7 @@ REF_COMMIT = "f893b2a853e1559d51291a3731d6cd6df79f1a51"
 # One line per screenshot: (script, [images the script must produce]).
 
 SCENES = []
-'''
+#'''
 SCENES += [("rephrase-and-drop-commit.py", ["rephrase-and-drop-commit.png"])]
 SCENES += [("mark-commits.py", ["mark-commits.png"])]
 SCENES += [("tag-commit.py", ["tag-commit.png"])]
@@ -80,6 +80,7 @@ SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
 SCENES += [("pr-diff.py", ["pr-diff.png"])]
 SCENES += [("browse-stash.py", ["browse-stash.png"])]
 SCENES += [("browse-reflog.py", ["browse-reflog.png"])]
+SCENES += [("browse-file-log.py", ["browse-file-log.png"])]
 SCENES += [("browse-branch.py", ["browse-branch.png"])]
 
 # config menu related screenshots
@@ -89,8 +90,7 @@ SCENES += [("rebase-options.py", ["rebase-options.png"])]
 SCENES += [("origin-options.py", ["origin-options.png", "push-dialog.png"])]
 SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 SCENES += [("fetch-progress.py", ["fetch-progress.png"])]
-'''
-SCENES += [("browse-file-log.py", ["browse-file-log.png"])]
+#'''
 
 
 # SCENES += [("test.py", ["test.png"])]
