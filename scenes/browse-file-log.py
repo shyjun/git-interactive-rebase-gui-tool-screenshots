@@ -32,7 +32,7 @@ def main():
         tool.right_click(1230, 324)
 
         tool.sleep(.5)
-        for _ in range(10):
+        for _ in range(11):
             tool.press("Down")
             tool.sleep(.1)
 

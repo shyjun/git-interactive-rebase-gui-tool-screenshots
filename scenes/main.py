@@ -90,8 +90,9 @@ SCENES += [("origin-options.py", ["origin-options.png", "push-dialog.png"])]
 SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 SCENES += [("fetch-progress.py", ["fetch-progress.png"])]
 '''
-
 SCENES += [("browse-file-log.py", ["browse-file-log.png"])]
+
+
 # SCENES += [("test.py", ["test.png"])]
 
 # ==========================================================
