@@ -47,7 +47,6 @@ SCENES += [("squash-context-menu.py", ["squash-context-menu.png"])]
 SCENES += [("squash-dialogue.py", ["squash-dialogue.png"])]
 SCENES += [("split-context-menu.py", ["split-context-menu.png"])]
 SCENES += [("reset-options.py", ["reset-options.png"])]
-SCENES += [("browse-file-log.py", ["browse-file-log.png"])]
 SCENES += [("consolidated-diff.py", ["consolidated-diff.png"])]
 SCENES += [("dark-theme.py", ["dark-theme.png"])]
 SCENES += [("blame-a-file.py", ["blame-a-file.png"])]
@@ -78,20 +77,20 @@ SCENES += [("font-selection-dialog.py", ["font-selection-dialog.png"])]
 SCENES += [("rebase-options.py", ["rebase-options.png"])]
 SCENES += [("origin-options.py", ["origin-options.png", "push-dialog.png"])]
 SCENES += [("fetch-progress.py", ["fetch-progress.png"])]
+SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 
 # repo menu related screenshots
-SCENES += [("browse-branch.py", ["browse-branch.png"])]
-SCENES += [("browse-reflog.py", ["browse-reflog.png"])]
-SCENES += [("browse-stash.py", ["browse-stash.png"])]
+'''
+
+SCENES += [("remove-file.py", ["remove-file.png"])]
+SCENES += [("rename-move.py", ["rename-move.png"])]
+SCENES += [("submodule-manager.py", ["submodule-manager.png"])]
 SCENES += [("browse-tags.py", ["browse-tags.png"])]
 SCENES += [("find-merge-base.py", ["find-merge-base.png"])]
 SCENES += [("pr-diff.py", ["pr-diff.png"])]
-SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
-SCENES += [("rename-move.py", ["rename-move.png"])]
-SCENES += [("remove-file.py", ["remove-file.png"])]
-SCENES += [("submodule-manager.py", ["submodule-manager.png"])]
-'''
-
+SCENES += [("browse-stash.py", ["browse-stash.png"])]
+SCENES += [("browse-reflog.py", ["browse-reflog.png"])]
+SCENES += [("browse-file-log.py", ["browse-file-log.png"])]
 SCENES += [("browse-branch.py", ["browse-branch.png"])]
 # SCENES += [("test.py", ["test.png"])]
 
