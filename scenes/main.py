@@ -37,7 +37,7 @@ REF_COMMIT = "f893b2a853e1559d51291a3731d6cd6df79f1a51"
 # One line per screenshot: (script, [images the script must produce]).
 
 SCENES = []
-'''
+#'''
 SCENES += [("rephrase-and-drop-commit.py", ["rephrase-and-drop-commit.png"])]
 SCENES += [("mark-commits.py", ["mark-commits.png"])]
 SCENES += [("tag-commit.py", ["tag-commit.png"])]
@@ -71,17 +71,7 @@ SCENES += [("refine-changes-in-file.py", ["refine-changes-in-file-1.png", "refin
 SCENES += [("commit-viewer-and-file-operations-menu.py", ["commit-viewer-and-file-operations-menu.png"])]
 SCENES += [("add-untracked-files.py", ["add-untracked-files.png", "handle-staged-changes.png", "commit_or_unstage-staged-selectively.png"])]
 
-# config menu related screenshots
-SCENES += [("external-tools-dialog.py", ["external-tools-dialog.png"])]
-SCENES += [("font-selection-dialog.py", ["font-selection-dialog.png"])]
-SCENES += [("rebase-options.py", ["rebase-options.png"])]
-SCENES += [("origin-options.py", ["origin-options.png", "push-dialog.png"])]
-SCENES += [("fetch-progress.py", ["fetch-progress.png"])]
-SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
-
 # repo menu related screenshots
-'''
-
 SCENES += [("remove-file.py", ["remove-file.png"])]
 SCENES += [("rename-move.py", ["rename-move.png"])]
 SCENES += [("submodule-manager.py", ["submodule-manager.png"])]
@@ -92,6 +82,17 @@ SCENES += [("browse-stash.py", ["browse-stash.png"])]
 SCENES += [("browse-reflog.py", ["browse-reflog.png"])]
 SCENES += [("browse-file-log.py", ["browse-file-log.png"])]
 SCENES += [("browse-branch.py", ["browse-branch.png"])]
+
+# config menu related screenshots
+SCENES += [("external-tools-dialog.py", ["external-tools-dialog.png"])]
+SCENES += [("font-selection-dialog.py", ["font-selection-dialog.png"])]
+SCENES += [("rebase-options.py", ["rebase-options.png"])]
+SCENES += [("origin-options.py", ["origin-options.png", "push-dialog.png"])]
+SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
+SCENES += [("fetch-progress.py", ["fetch-progress.png"])]
+#'''
+
+
 # SCENES += [("test.py", ["test.png"])]
 
 # ==========================================================
