@@ -37,7 +37,7 @@ REF_COMMIT = "f893b2a853e1559d51291a3731d6cd6df79f1a51"
 # One line per screenshot: (script, [images the script must produce]).
 
 SCENES = []
-#'''
+'''
 SCENES += [("rephrase-and-drop-commit.py", ["rephrase-and-drop-commit.png"])]
 SCENES += [("mark-commits.py", ["mark-commits.png"])]
 SCENES += [("tag-commit.py", ["tag-commit.png"])]
@@ -51,7 +51,6 @@ SCENES += [("consolidated-diff.py", ["consolidated-diff.png"])]
 SCENES += [("dark-theme.py", ["dark-theme.png"])]
 SCENES += [("blame-a-file.py", ["blame-a-file.png"])]
 SCENES += [("main-interface.py", ["main-interface.png"])]
-SCENES += [("plain-file-tree-diff.py", ["plain-file-tree-diff.png"])]
 SCENES += [("split-each-to-separate.py", ["split-each-to-separate.png"])]
 SCENES += [("split-all-to-separate.py", ["split-all-to-separate.png"])]
 SCENES += [("drag-reorder.py", ["drag-reorder.png"])]
@@ -90,7 +89,8 @@ SCENES += [("rebase-options.py", ["rebase-options.png"])]
 SCENES += [("origin-options.py", ["origin-options.png", "push-dialog.png"])]
 SCENES += [("update-available-dialog.py", ["update-available-dialog.png"])]
 SCENES += [("fetch-progress.py", ["fetch-progress.png"])]
-#'''
+'''
+SCENES += [("plain-file-tree-diff.py", ["plain-file-tree-diff.png"])]
 
 
 # SCENES += [("test.py", ["test.png"])]
