@@ -97,9 +97,7 @@ def main():
         tool.click(1288, 208)
         tool.sleep(.2)
 
-        tool.click(1073, 170)
-        tool.sleep(.01)
-        tool.click(1073, 170)
+        tool.click(1631, 168)
         tool.sleep(.2)
         img = capture(
             tool,
@@ -111,8 +109,7 @@ def main():
         #img.crop(517, 148, 1384, 808)
         img.save("diff-at-right-pane.png")
         tool.sleep(.2)
-        tool.click(1073, 170)
-        tool.click(1073, 170)
+        tool.click(1815, 974)
         tool.sleep(.2)
         #tool.click(988, 207)
         #tool.sleep(.2)
