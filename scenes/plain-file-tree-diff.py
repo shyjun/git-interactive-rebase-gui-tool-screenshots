@@ -94,17 +94,32 @@ def main():
         final.add(x, y, treewise)
         final.save("plain-file-tree-diff.png")
 
-        '''
+        tool.click(1288, 208)
+        tool.sleep(.2)
+        img = capture(
+            tool,
+            description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
+            size=(1920, 1042),
+        )
+        img.draw_box(BOXES)
+        img.add_text(645, 144, " treewise diff ", 25, border=1, fill="red")
+        img.crop(517, 148, 1384, 808)
+        img.save("diff-at-right-pane.png")
+        tool.sleep(.2)
+        tool.click(988, 207)
+        tool.sleep(.2)
+
+        #'''
         tool.sleep(.5)
         tool.press("Escape")
 
         tool.sleep(.5)
         tool.press("Escape")
-        '''
+        #'''
 
     finally:
         # 4. close the tool - even when a step above failed
-        #tool.close()
+        tool.close()
         tool.sleep(1)
 
 
