@@ -121,21 +121,20 @@ def main():
         tool.click(753, 51)
         tool.sleep(.2)
 
-        tool.click(1815, 974)
+        tool.click(1882, 14)
         tool.sleep(.2)
 
-        '''
         tool.sleep(.5)
         tool.press("Escape")
 
         tool.sleep(.5)
         tool.press("Escape")
-        '''
 
     finally:
         # 4. close the tool - even when a step above failed
-        #tool.close()
-        tool.sleep(1)
+        tool.sleep(.5)
+        tool.close()
+        tool.sleep(.5)
 
 
 if __name__ == "__main__":
