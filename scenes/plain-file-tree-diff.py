@@ -94,15 +94,18 @@ def main():
         final.add(x, y, treewise)
         final.save("plain-file-tree-diff.png")
 
+        '''
         tool.sleep(.5)
         tool.press("Escape")
 
         tool.sleep(.5)
         tool.press("Escape")
+        '''
 
     finally:
         # 4. close the tool - even when a step above failed
-        tool.close()
+        #tool.close()
+        tool.sleep(1)
 
 
 if __name__ == "__main__":
