@@ -11,6 +11,9 @@ from capture_lib import Tool, capture, image_new, repo
 BOXES = [
     {"rect": (517, 148, 1384, 808)},
     ]
+BOXES2 = [
+    {"rect": (729, 32, 954, 77)},
+    ]
 
 
 def main():
@@ -113,7 +116,7 @@ def main():
             description="launched with HEAD~13: 13 newest commits, HEAD row selected, Plain Diff",
             size=(1920, 1042),
         )
-        #img.add_text(645, 144, " treewise diff ", 25, border=1, fill="red")
+        img.draw_box(BOXES)
         img.save("diff-at-right-pane.png")
         tool.sleep(.2)
 
