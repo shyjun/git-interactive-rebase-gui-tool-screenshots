@@ -116,10 +116,13 @@ def main():
         #img.add_text(645, 144, " treewise diff ", 25, border=1, fill="red")
         img.save("diff-at-right-pane.png")
         tool.sleep(.2)
+
+        # switch to stacked view
+        tool.click(753, 51)
+        tool.sleep(.2)
+
         tool.click(1815, 974)
         tool.sleep(.2)
-        #tool.click(988, 207)
-        #tool.sleep(.2)
 
         '''
         tool.sleep(.5)
